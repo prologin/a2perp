@@ -1,0 +1,38 @@
+{% extends "semifinals/base.html" %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>A2PERP | Espace Organisateur</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Espace Organisateur</h1>
+
+    <p>Bienvenue dans votre espace organisateur, <b>{{ user.first_name }} {{ user.last_name }}</b></p>
+
+    <h2>Épreuves écrites</h2>
+
+    <ul class="home-links">
+        <li><a href="{% url 'semifinals:session-list' %}"><i class="las la-edit"></i><br><br>Épreuves écrites</a></li>
+        <li><a href="{% url 'semifinals:session-overseer-list' %}"><i class="las la-binoculars"></i><br><br>Supervision d'épreuve</a></li>
+    </ul>
+
+    <h2>Entretiens oraux</h2>
+
+    <ul class="home-links">
+        <li><a href="#"><i class="las la-calendar"></i><br><br>Saisie Disponibilités</a></li>
+        <li><a href="#"><i class="las la-calendar-check"></i><br><br>Mes entretiens</a></li>
+        <li><a href="#"><i class="las la-video"></i><br><br>Liens Google Meet</a></li>
+    </ul>
+
+    <h2>Mon Compte</h2>
+    <ul class="home-links">
+        <li><a href="{% url 'admin:index' %}"><i class="las la-cog"></i><br><br>Django Admin</a></li>
+        <li><a href="{% url 'semifinals:contestant-home' %}"><i class="las la-otter"></i><br><br>Espace Candidat</a></li>
+        <li><a href="{% url 'semifinals:logout' %}"><i class="las la-door-open"></i><br><br>Déconnexion</a></li>
+    </ul>
+</div>
+
+{% endblock %}

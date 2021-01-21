@@ -1,0 +1,37 @@
+{% extends "semifinals/base.html" %}
+{% load static semifinals_status %}
+
+{% block base_extra_head %}
+<title>A2PERP | {{ object.display_name }}</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/sessions.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:session-list' %}">&lt; &nbsp; Retour à la liste des convocations</a></small>
+    <h1 class="small-bottom-margin trb">{{ object.display_name }}</h1>
+    <small class="session-unique-id">{{ object.id }}</small>
+
+    <h3 style="color: {% session_status_color object.status %};">{% session_status object.status %}</h2>
+
+    <p><i class="las la-clock big-icon"></i> Début <b>{{ object.date_start | date:"d F Y"}} à {{ object.date_start | date:"H:i:s"}}</b></p>
+    <p><i class="las la-clock big-icon"></i> Fin <b>{{ object.date_end | date:"d F Y"}} à {{ object.date_end | date:"H:i:s"}}</b></p>
+
+    <h2>Sujet et instructions</h2>
+
+    <section id="subject-and-instructions">
+        {% if object.status == 2 %}
+        <p>{{ object.contestant_instructions | linebreaks | urlize }}</p>
+            {% if object.subject%}
+                <a href="{% url 'semifinals:download-subject' object.id %}" class="btn">TELECHARGER LE SUJET</a>
+            {% endif %}
+        {% else %}
+        <h4>L'épreuve est fermée, vous ne pouvez plus accéder au sujet.</h4>
+        {% endif %}
+    </section>
+
+    {% include 'written_exams/submission.html' %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+:root {
+    --max-body-size: 900px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(251, 251, 251);
+    font-family: 'IBM Plex Sans', sans-serif;
+    vertical-align: middle;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+.prologin-title {
+    font-weight: 400;
+    font-size: 2.3em;
+    padding-left: 10px;
+}
+
+.banner {
+    background-color: #35479A;
+    color: whitesmoke;
+}
+
+.banner-content {
+    margin: 0 auto 50px;
+    max-width: var(--max-body-size);
+    padding: 10px 20px;
+    display: flex;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: var(--max-body-size);
+    padding: 0 20px;
+}
+
+.btn {
+    background-color: #3F51B5;
+    color: whitesmoke;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 8px;
+    margin: 10px 3px;
+    box-sizing: border-box;
+    display: inline-block;
+    border-radius: 0.2em;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.btn-warning {
+    background-color: #e29200;
+}
+
+.btn-success {
+    background-color: #28A745;
+}
+
+.btn-danger {
+    background-color: #DC3545;
+}
+
+.small-bottom-margin {
+    margin-bottom: 3px;
+}
+
+i {
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+i.big-icon {
+    font-size: 32px;
+}
+
+fieldset {
+    border-color: black;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.trb {
+    margin-top: 2px;
+}
+
+.return-button > a {
+    color: rgb(78, 78, 78);
+    text-decoration: none;
+}

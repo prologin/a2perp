@@ -1,0 +1,42 @@
+{% extends "semifinals/base.html" %}
+{% load semifinals_status static %}
+
+{% block base_extra_head %}
+<link rel="stylesheet" href="{% static 'semifinals/css/sessions.css' %}">
+<title>A2PERP | Sessions</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <small class="return-button"><a href="{% url 'semifinals:contestant-home' %}">&lt; &nbsp; Retour à l'accueil</a></small>
+    <h1 class="trb">Mes sessions de demi-finale</h1>
+
+    <section id="sessions-list">
+        {% if object_list %}
+        {% for session in object_list %}
+        <article class="session-instance">
+            <h3>{{ session.display_name }}</h3>
+            <small class="session-unique-id">{{ session.id }}</small>
+            <p>État : <span class="session-status" style="color: {% session_status_color session.status %};">{% session_status session.status %}</span></p>
+            <p><i class="las la-clock"></i> Du <b>{{ session.date_start | date:"d F Y"}} à {{ session.date_start | date:"H:i:s"}}</b> au
+            <b>{{ session.date_end | date:"d F Y"}} à {{ session.date_end | date:"H:i:s"}}</b></p>
+            {% if session.status == 1%}
+            <p>Dès que l'épreuve sera ouverte, vous pourrez accéder au sujet et à l'interface de rendu depuis cette page</p>
+            {% endif %}
+            <hr>
+            <p class="session-status-message">{% session_status_message session.status %}</p>
+            {% if session.status == 2 %}
+            <a href="{% url 'semifinals:session-details' session.id %}" class="btn">OUVRIR</a>
+            {% endif %}
+        </article>
+        {% endfor %}
+        {% else %}
+            <div class="text-center"><p>Vous n'êtes convoqué à aucune session d'épreuve écrite.</p></div>
+        {% endif %}
+    </section>
+
+</div>
+
+{% endblock %}

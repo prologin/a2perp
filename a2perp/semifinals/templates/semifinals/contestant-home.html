@@ -1,0 +1,23 @@
+{% extends "semifinals/base.html" %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>A2PERP | Espace Candidat</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Espace Candidat</h1>
+
+    <p>Bienvenue dans votre espace candidat, <b>{{ user.first_name }} {{ user.last_name }}</b></p>
+
+    <ul class="home-links">
+        <li><a href="{% url 'semifinals:session-list' %}"><i class="las la-edit"></i><br><br>Épreuves écrites</a></li>
+        <li><a href="#"><i class="las la-phone-volume"></i><br><br>Entretiens oraux</a></li>
+        <li><a href="{% url 'semifinals:logout' %}"><i class="las la-door-open"></i><br><br>Déconnexion</a></li>
+        <li><a href="https://prologin.org"><i class="las la-cube"></i><br><br>Site Prologin</a></li>
+    </ul>
+</div>
+
+{% endblock %}

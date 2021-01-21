@@ -1,0 +1,30 @@
+.home-links {
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    list-style-type: none;
+    padding-left: 0;
+    flex-wrap: wrap;
+}
+
+.home-links > li {
+    display: inline-flex;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: rgb(230, 230, 230);
+    padding: 45px;
+    width: 7em;
+    height: 7em;
+}
+
+.home-links > li > a {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(80, 80, 80);
+    vertical-align: middle;
+    margin: auto;
+}
+
+.home-links > li > a > i {
+    font-size: 64px;
+}

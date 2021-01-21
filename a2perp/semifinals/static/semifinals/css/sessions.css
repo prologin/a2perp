@@ -1,0 +1,38 @@
+article.session-instance {
+    border: 0.13em solid black;
+    padding: 0 1em;
+    margin: 2em 0;
+}
+
+article.session-instance > h3 {
+    font-size: 1.3em;
+    margin-bottom: 3px;
+}
+
+article.session-instance > hr {
+    border-color: black;
+}
+
+.session-unique-id {
+    color: #4C4C4C;
+    font-family: monospace;
+}
+
+.timespan {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.timespan :first-child {
+    margin-right: auto;
+}
+
+.session-overseer-instance {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

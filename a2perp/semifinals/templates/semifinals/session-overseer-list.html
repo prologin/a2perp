@@ -1,0 +1,33 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>A2PERP | Supervision Écrits</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/sessions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:organizer-home' %}">&lt; Retour à l'espace organisateur</a></small>
+    <h1 class="trb">Supervision Épreuve Écrite</h1>
+
+    <section>
+        {% if object_list %}
+        {% for session in object_list %}
+            <article class="session-instance">
+                <div>
+                    <h3>{{ session.display_name }}</h3>
+                    <small class="session-unique-id">{{ session.id }}</small>
+                </div>
+                <div>
+                    <br>
+                    <a href="#" class="btn btn-success">ESPACE SUPERVISION</a>
+                </div>
+            </article>
+        {% endfor %}
+        {% else %}
+            <p>Aucune épreuve disponible en supervision.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

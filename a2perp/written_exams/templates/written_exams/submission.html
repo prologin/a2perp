@@ -1,0 +1,42 @@
+<h2>Rendu de fichiers</h2>
+
+{% if object.status == 2 %}
+    <p>Utilisez le formulaire ci-dessous pour rendre votre copie.
+        Vous pouvez rendre votre copie autant de fois que nécéssaire, nous garderons la dernière version envoyée.
+    </p>
+
+    <p>Conditions sur le fichier rendu</p>
+    <ul>
+        <li>Format PDF</li>
+        <li>Taille maximale 4 Mo.</li>
+    </ul>
+
+    <p><em>Remarque: si votre fichier PDF est trop lourd, vous pouvez le compresser grâce à des outils en ligne.</em></p>
+
+    <br>
+
+    <fieldset>
+        <legend>Téléversement</legend>
+        {% if user.is_staff %}
+            <p>Les rendus de fichiers ne sont pas autorisés pour les membres du staff.</p>
+        {% else %}
+        {% if submission %}
+            <p class="last-handout">Votre dernier rendu date du <b>{{ submission.last_updated | date:'d F Y H:i:s' }}</b></p>
+        {% else %}
+            <p class="last-handout">Vous n'avez pas encore effectué de rendu.</p>
+        {% endif %}
+        <form method="POST" enctype="multipart/form-data" action="{% url 'written_exams:submit-file' object.id %}">
+            <p><input type="file" accept="application/pdf" name="file" required multiple="no"></p>
+            <p><button class="btn btn-success"><i class="las la-cloud-upload-alt"></i> ENVOYER</button></p>
+            {% csrf_token %}
+        </form>
+        {% endif %}
+    </fieldset>
+{% else %}
+    <h4>L'épreuve est fermée, vous ne pouvez plus rendre de fichiers.</h4>
+    {% if submission %}
+        <p class="last-handout">Info: Votre dernier rendu date du <b>{{ submission.last_updated | date:'d F Y H:i:s' }}</b></p>
+    {% else %}
+        <p class="last-handout">Info: Vous n'avez pas rendu de copie pour cette session.</p>
+    {% endif %}
+{% endif %}
