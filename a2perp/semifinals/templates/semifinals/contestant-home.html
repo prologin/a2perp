@@ -8,7 +8,10 @@
 
 {% block content %}
 <div class="container">
-    <h1>Espace Candidat</h1>
+    {% if user.is_staff %}
+    <small class="return-button"><a href="{% url 'semifinals:organizer-home' %}">&lt;&nbsp; Retour Espace Organisateur</a></small>
+    {% endif %}
+    <h1 class="{% if user.is_staff %}trb{% endif %}">Espace Candidat</h1>
 
     <p>Bienvenue dans votre espace candidat, <b>{{ user.first_name }} {{ user.last_name }}</b></p>
 
@@ -17,6 +20,7 @@
         <li><a href="#"><i class="las la-phone-volume"></i><br><br>Entretiens oraux</a></li>
         <li><a href="{% url 'semifinals:logout' %}"><i class="las la-door-open"></i><br><br>Déconnexion</a></li>
         <li><a href="https://prologin.org"><i class="las la-cube"></i><br><br>Site Prologin</a></li>
+        <li><a href="https://youtu.be/dQw4w9WgXcQ?t=43"><i class="las la-pizza-slice"></i><br><br>Retrait des pizzas</a></li>
     </ul>
 </div>
 

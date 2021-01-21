@@ -36,3 +36,7 @@ article.session-instance > hr {
     align-items: center;
     justify-content: space-between;
 }
+
+.session-status {
+    font-weight: 500;
+}

@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from pathlib import Path
 import uuid
@@ -23,3 +24,22 @@ class Session(models.Model):
 
     def __str__(self):
         return self.display_name
+
+    @classmethod
+    def get_user_sessions(cls, user):
+        CONTESTANT_ALLOWED_STATUSES = (SessionStatuses.TEASED, SessionStatuses.OPEN, SessionStatuses.SUBMISSIONS_CLOSED)
+        if user.is_staff:
+            return cls.objects.all()
+
+        social = None
+        try:
+            social = user.social_auth.first()
+        except ObjectDoesNotExist:
+            return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id__isnull=True)
+
+        if social.extra_data.get('is_contestant', False) and social.extra_data['contestant'].get('assignation_semifinal') == 2:
+            event_id = int(social.extra_data['contestant']['assignation_semifinal_event']['id'])
+            print(event_id)
+            return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id=event_id)
+
+        return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id__isnull=True)

@@ -4,3 +4,4 @@
 a2perp/a2perp/settings/dev.py
 a2perp/exams_submissions
 a2perp/session_subjects
+a2perp/db.sqlite3

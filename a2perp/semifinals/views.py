@@ -1,7 +1,6 @@
 from django.views.generic import ListView, DetailView, View, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
 from django.http import FileResponse, Http404
 from django.urls import reverse
 from django.db.models import Q
@@ -27,15 +26,16 @@ class SessionList(LoginRequiredMixin, ListView):
     template_name = 'semifinals/session-list.html'
 
     def get_queryset(self):
-        return models.Session.objects.filter(status__in=(models.SessionStatuses.TEASED, models.SessionStatuses.OPEN, models.SessionStatuses.SUBMISSIONS_CLOSED))
+        return models.Session.get_user_sessions(self.request.user)
 
 class SessionDetail(LoginRequiredMixin, DetailView):
     model = models.Session
     template_name = 'semifinals/session-details.html'
 
     def get_queryset(self):
-        return models.Session.objects.filter(status__in=(models.SessionStatuses.OPEN, models.SessionStatuses.SUBMISSIONS_CLOSED))
-    
+        DETAILS_ALLOWED_STATUSES = (models.SessionStatuses.OPEN, models.SessionStatuses.SUBMISSIONS_CLOSED)
+        return models.Session.get_user_sessions(self.request.user).filter(status__in=DETAILS_ALLOWED_STATUSES)
+
     def get_context_data(self, object, **kwargs):
         context = super().get_context_data(**kwargs)
         submission = None
@@ -51,7 +51,12 @@ class DownloadSessionSubjectView(View):
     http_method_names = ('get',)
 
     def get(self, request, pk, **kwargs):
-        session = get_object_or_404(models.Session, id=pk, status=models.SessionStatuses.OPEN)
+        session = None
+        try:
+            session = models.Session.get_user_sessions(request.user).get(pk=pk, status=models.SessionStatuses.OPEN)
+        except ObjectDoesNotExist:
+            raise Http404()
+
         if not session.subject:
             raise Http404()
         return FileResponse(open(session.subject.path, 'rb'), as_attachment=True)

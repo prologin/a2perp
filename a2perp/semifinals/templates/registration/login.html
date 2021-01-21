@@ -19,6 +19,8 @@
         {% endif %}
     {% endif %}
 
+    <p><a href="{% url 'social:begin' 'prologin' %}">Se connecter avec Prologin</a></p>
+
     <form method="post" action="">
     {% csrf_token %}
     <table>

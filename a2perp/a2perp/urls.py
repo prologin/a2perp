@@ -7,4 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('written-exams/', include('written_exams.urls')),
     path('', include('semifinals.urls')),
+
+    path('social/', include('social_django.urls', namespace='social')),
 ]
