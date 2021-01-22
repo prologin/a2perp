@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <center><p><a class="btn" href="{% url 'social:begin' 'prologin' %}">Se connecter avec Prologin</a></p></center>
+    <center><p><a class="btn" href="{% url 'social:begin' 'prologin' %}?next={{ request.GET.next }}">Se connecter avec Prologin</a></p></center>
 
     {% if not settings.APP_NO_LOCAL_LOGIN %}
         {% if form.errors %}

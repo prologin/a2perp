@@ -14,7 +14,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -23,6 +22,7 @@ INSTALLED_APPS = [
     'social_django',
     'semifinals',
     'written_exams',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +122,5 @@ AUTHENTICATION_BACKENDS = (
     'semifinals.auth_backends.ProloginOIDCBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+LOGIN_REDIRECT_URL = '/'
