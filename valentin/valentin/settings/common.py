@@ -35,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'a2perp.urls'
+ROOT_URLCONF = 'valentin.urls'
 
 TEMPLATES = [
     {
@@ -54,7 +54,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'a2perp.wsgi.application'
+WSGI_APPLICATION = 'valentin.wsgi.application'
 
 
 DATABASES = {
@@ -124,3 +124,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_REDIRECT_URL = '/'
+
+PROLOGIN_FORMS_FOLDER = BASE_DIR.parent / 'valentin-forms'

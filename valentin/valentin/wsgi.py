@@ -1,5 +1,5 @@
 """
-WSGI config for a2perp project.
+WSGI config for valentin project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'a2perp.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'valentin.settings.dev')
 
 application = get_wsgi_application()

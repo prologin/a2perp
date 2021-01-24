@@ -1,7 +1,7 @@
 .venv/
 *__pycache__*
 *.pyc
-a2perp/a2perp/settings/dev.py
-a2perp/exams_submissions
-a2perp/session_subjects
-a2perp/db.sqlite3
+valentin/valentin/settings/dev.py
+valentin/exams_submissions
+valentin/session_subjects
+valentin/db.sqlite3

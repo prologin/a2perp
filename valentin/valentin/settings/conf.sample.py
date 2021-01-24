@@ -1,7 +1,7 @@
 from .common import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['a2perp.prologin.dev']
+ALLOWED_HOSTS = ['valentin.prologin.dev']
 
 '''
 Application settings

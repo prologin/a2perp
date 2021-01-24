@@ -5,7 +5,7 @@ from django.http import FileResponse, Http404
 from django.urls import reverse
 from django.db.models import Q
 from . import models
-from a2perp.utils import EnsureStaffMixin
+from valentin.utils import EnsureStaffMixin
 from written_exams.models import Submission
 
 class HomeView(LoginRequiredMixin, RedirectView):
