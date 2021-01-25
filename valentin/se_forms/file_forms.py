@@ -18,10 +18,12 @@ class MalformedQuestionChoice(MalformedQuestion):
 
 class DynamicForm(forms.Form):
 
-    def __init__(self, extracted_fields, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
+        extracted_fields = kwargs.pop('extracted_fields', None)
         super(DynamicForm, self).__init__(*args, **kwargs)
-        for id, field in extracted_fields:
-            self.fields[id] = field
+        if extracted_fields:
+            for id, field in extracted_fields:
+                self.fields[id] = field
 
 
 class QuestionFieldBuilder():
@@ -203,7 +205,7 @@ class FormBuilder():
             raise MalformedForm('Form questions must be a list')
 
         self.questions = tuple(QuestionFieldBuilder(q).build() for q in questions)
-        self.form = DynamicForm(self.questions)
+        self.form = DynamicForm(extracted_fields=self.questions)
 
         # for cascade queryset-ish / django-ish calls
         return self
