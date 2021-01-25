@@ -5,3 +5,4 @@ valentin/valentin/settings/dev.py
 valentin/exams_submissions
 valentin/session_subjects
 valentin/db.sqlite3
+valentin/*/migrations/
