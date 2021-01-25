@@ -1,6 +1,6 @@
-from django.views.generic import View, FormView
+from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.http import HttpResponseBadRequest, Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -9,8 +9,8 @@ from .models import Submission
 from semifinals.models import Session, SessionStatuses
 from .forms import SubmissionForm
 
-from se_forms import models as form_models
-from se_forms import file_forms
+from se_forms import views as se_views
+from valentin.utils import EnsureStaffMixin
 
 
 class SubmissionUploadView(LoginRequiredMixin, View):
@@ -38,55 +38,21 @@ class SubmissionUploadView(LoginRequiredMixin, View):
         return HttpResponseBadRequest('Provided File is not Valid')
 
 
-class FormSubmissionView(FormView):
+class FormSubmissionView(se_views.SEEditableFormView):
     template_name = 'written_exams/form-questions.html'
-
-    def authorization(self, request):
-        pass
 
     def get_success_url(self):
         return reverse('written_exams:form-questions', args=[self.exam_session.id])
 
-    def dispatch(self, request, session_id, *args, **kwargs):
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-
+    def get_form_instance(self, id):
         try:
-            self.exam_session = Session.get_user_sessions(request.user).get(id=session_id, form__isnull=False, status=SessionStatuses.OPEN)
+            self.exam_session = Session.get_user_sessions(self.request.user).get(id=id, form__isnull=False, status=SessionStatuses.OPEN)
         except ObjectDoesNotExist:
             raise Http404
 
-        self.authorization(request)
-        self.form_instance = self.exam_session.form
-        self.extracted_form = self.form_instance.get_form()
-        self.user_answers = self.get_user_answers()
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_user_answers(self):
-        try:
-            return form_models.UserAnswers.objects.get(form=self.form_instance, user=self.request.user)
-        except ObjectDoesNotExist:
-            return form_models.UserAnswers(user=self.request.user, form=self.form_instance)
-
-    def get_initial(self):
-        if bool(self.user_answers.answers):
-            return self.user_answers.answers
-        return super().get_initial()
-
-    def get_form(self, form_class=None):
-        return file_forms.DynamicForm(self.extracted_form.questions, **self.get_form_kwargs())
+        return self.exam_session.form
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['form_instance'] = self.form_instance
-        context['extracted_form'] = self.extracted_form
         context['exam_session'] = self.exam_session
-        context['user_answer'] = self.user_answers
         return context
-
-    def form_valid(self, form):
-        self.user_answers.answers = form.cleaned_data
-        self.user_answers.save()
-
-        return super().form_valid(form)

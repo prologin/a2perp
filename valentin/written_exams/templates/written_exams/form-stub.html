@@ -1,0 +1,8 @@
+{% for field in form.visible_fields %}
+<div class="form-element">
+    {{ field.errors }}
+    <p class="question">{{ field.label }}</p>
+    {{ field }}
+    <span class="help-text">{{ field.help_text | linebreaks }}</span>
+</div>
+{% endfor %}
