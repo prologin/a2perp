@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'social_django',
     'semifinals',
     'written_exams',
+    'se_forms',
     'django.contrib.admin',
 ]
 
@@ -125,4 +126,4 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'
 
-PROLOGIN_FORMS_FOLDER = BASE_DIR.parent / 'valentin-forms'
+PROLOGIN_FORMS_REPOSITORY = BASE_DIR.parent / 'valentin-forms'
