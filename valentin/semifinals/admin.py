@@ -16,6 +16,7 @@ class SessionAdmin(admin.ModelAdmin):
                 'id',
                 'display_name',
                 'status',
+                'file_upload',
             ),
         }),
         ('Infos site Prologin', {
@@ -28,6 +29,11 @@ class SessionAdmin(admin.ModelAdmin):
                 'subject',
                 'contestant_instructions',
             ),
+        }),
+        ('Formulaire de réponse', {
+            'fields': (
+                'form',
+            )
         }),
         ('Début et fin de la période de rendu', {
             'fields': (

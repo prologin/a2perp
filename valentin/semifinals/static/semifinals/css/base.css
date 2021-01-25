@@ -2,12 +2,17 @@
 
 :root {
     --max-body-size: 900px;
+    --color-primary: #3F51B5;
+    --color-warning: #e29200;
+    --color-success: #28A745;
+    --color-danger: #DC3545;
+    --color-secondary: #6d6d6d;
 }
 
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(251, 251, 251);
+    background-color: rgb(253, 253, 253);
     font-family: 'IBM Plex Sans', sans-serif;
     vertical-align: middle;
 }
@@ -47,7 +52,7 @@ h2 {
 }
 
 .btn {
-    background-color: #3F51B5;
+    background-color: var(--color-primary);
     color: whitesmoke;
     text-decoration: none;
     font-weight: 500;
@@ -60,18 +65,30 @@ h2 {
     outline: none;
     font-size: 1em;
     font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
 }
 
 .btn-warning {
-    background-color: #e29200;
+    background-color: var(--color-warning);
 }
 
 .btn-success {
-    background-color: #28A745;
+    background-color: var(--color-success);
 }
 
 .btn-danger {
-    background-color: #DC3545;
+    background-color: var(--color-danger);
+}
+
+.btn-secondary {
+    background-color:var(--color-secondary);
 }
 
 .small-bottom-margin {
@@ -102,4 +119,80 @@ fieldset {
 .return-button > a {
     color: rgb(78, 78, 78);
     text-decoration: none;
+}
+
+/* Alerts */
+
+.alert {
+    display: block;
+    width: auto;
+    padding: 1.5em;
+    color: white;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.alert-success {
+    background-color: var(--color-success);
+}
+
+.alert-primary {
+    background-color: var(--color-primary);
+}
+
+.alert-danger {
+    background-color: var(--color-danger);
+}
+
+.alert-secondary {
+    background-color: var(--color-secondary);
+}
+
+.alert-warning {
+    background-color: var(--color-warning);
+}
+
+/* Inputs styling */
+form ul {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+form ul li:first-child {
+    padding-top: 0.5em;
+}
+
+form ul li {
+    padding-bottom: 0.5em;
+}
+
+input[type="text"], input[type="number"], textarea {
+    display: block;
+    border: 0.1em solid black;
+    padding: 10px 10px;
+    width: 100%;
+}
+
+input:focus, textarea {
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+p.question {
+    font-size: 1.2em;
+}
+
+span.help-text {
+    color:rgb(78, 78, 78);
+    font-size: 0.8em;
+}
+
+.form-element {
+    margin-bottom: 2em;
+    padding-left: 1em;
+    border-left: 0.3em solid rgb(78, 78, 78, 0.2);
+    padding-right: 1em;
 }

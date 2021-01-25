@@ -27,7 +27,7 @@
         {% endif %}
         <form method="POST" enctype="multipart/form-data" action="{% url 'written_exams:submit-file' object.id %}">
             <p><input type="file" accept="application/pdf" name="file" required multiple="no"></p>
-            <p><button class="btn btn-success"><i class="las la-cloud-upload-alt"></i> ENVOYER</button></p>
+            <button class="btn btn-block btn-success"><i class="las la-cloud-upload-alt"></i> ENVOYER</button>
             {% csrf_token %}
         </form>
         {% endif %}
@@ -35,8 +35,8 @@
 {% else %}
     <h4>L'épreuve est fermée, vous ne pouvez plus rendre de fichiers.</h4>
     {% if submission %}
-        <p class="last-handout">Info: Votre dernier rendu date du <b>{{ submission.last_updated | date:'d F Y H:i:s' }}</b></p>
+        <div class="alert alert-success">Info: votre dernier rendu date du <b>{{ submission.last_updated | date:'d F Y H:i:s' }}</b></div>
     {% else %}
-        <p class="last-handout">Info: Vous n'avez pas rendu de copie pour cette session.</p>
+        <div class="alert alert-warning">Info: vous n'avez pas rendu de copie pour cette session.</div>
     {% endif %}
 {% endif %}

@@ -43,7 +43,10 @@ class SessionDetail(LoginRequiredMixin, DetailView):
             submission = Submission.objects.get(session=object, user=self.request.user)
         except ObjectDoesNotExist:
             pass
+
         context['submission'] = submission
+        if object.form:
+            context['form_user_answers'] = object.form.get_user_answers(self.request.user)
 
         return context
 

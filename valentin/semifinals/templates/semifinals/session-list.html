@@ -10,7 +10,7 @@
 
 <div class="container">
 
-    <small class="return-button"><a href="{% url 'semifinals:contestant-home' %}">&lt; &nbsp; Retour à l'accueil</a></small>
+    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt; &nbsp; Retour à l'accueil</a></small>
     <h1 class="trb">Mes sessions de demi-finale</h1>
 
     <section id="sessions-list">
@@ -25,10 +25,9 @@
             {% if session.status == 1%}
             <p>Dès que l'épreuve sera ouverte, vous pourrez accéder au sujet et à l'interface de rendu depuis cette page</p>
             {% endif %}
-            <hr>
             <p class="session-status-message">{% session_status_message session.status %}</p>
             {% if session.status == 2 %}
-            <a href="{% url 'semifinals:session-details' session.id %}" class="btn">OUVRIR</a>
+            <a href="{% url 'semifinals:session-details' session.id %}" class="btn btn-block">OUVRIR</a>
             {% endif %}
         </article>
         {% endfor %}

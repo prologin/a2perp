@@ -1,0 +1,44 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+
+{% block base_extra_head %}
+<title>Questionnaire {{ exam_session }}</title>
+<meta name="notif-changed-element" value="not-saved-alert">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:session-details' exam_session.id %}">&lt;&nbsp; Retour à l'épreuve</a></small>
+    <h1 class="trb">{{ exam_session }}</h1>
+
+    {% if extracted_form.introduction %}
+        <p>{{ extracted_form.introduction | linebreaks | urlize }}</p>
+    {% endif %}
+    {% if user_answer.last_updated %}
+        <div class="alert alert-secondary"><i class="las la-user-clock"></i>&nbsp; votre dernier rendu de ce formulaire date du <b>{{ user_answer.last_updated | date:'d F Y à H:i:s' }}</b></div>
+    {% else %}
+        <div class="alert alert-secondary"><i class="las la-user-clock"></i>&nbsp; <b>vous n'avez pas encore répondu à ce questionnaire</b></div>
+    {% endif %}
+
+    <h2>Vos réponses</h2>
+    <div style="display: none;" class="alert alert-warning" id="not-saved-alert"><i class="las la-exclamation-triangle"></i>&nbsp; Attention : vos réponses au questionnaire ne sont pas sauvegardées. Pensez bien à cliquer sur sauvegarder même si vous n'avez pas encore tout complété.</div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="form-element">
+                {{ field.errors }}
+                <p class="question">{{ field.label }}</p>
+                {{ field }}
+                <span class="help-text">{{ field.help_text | linebreaks }}</span>
+            </div>
+        {% endfor %}
+        <br>
+        <button class="btn btn-block btn-success">SAUVEGARDER</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script src="{% static 'se_forms/js/fieldchangewatcher.js' %}" type="application/javascript"></script>
+{% endblock %}

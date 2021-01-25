@@ -23,15 +23,32 @@
     <section id="subject-and-instructions">
         {% if object.status == 2 %}
         <p>{{ object.contestant_instructions | linebreaks | urlize }}</p>
-            {% if object.subject%}
-                <a href="{% url 'semifinals:download-subject' object.id %}" class="btn">TELECHARGER LE SUJET</a>
+            {% if object.subject %}
+                <a href="{% url 'semifinals:download-subject' object.id %}" class="btn btn-secondary btn-block">TELECHARGER LE SUJET</a>
             {% endif %}
         {% else %}
         <h4>L'épreuve est fermée, vous ne pouvez plus accéder au sujet.</h4>
         {% endif %}
     </section>
 
-    {% include 'written_exams/submission.html' %}
+    {% if object.form %}
+        <h2>Formulaire de réponse</h2>
+        {% if object.status == 2 %}
+            <p>Cette épreuve comporte un formulaire de réponse, lisez les instructions et le sujet pour plus de détails.</p>
+            <a href="{% url 'written_exams:form-questions' object.id %}" class="btn btn-block">OUVRIR LE FORMULAIRE DE RÉPONSE</a>
+        {% else %}
+            <p><b>L'épreuve est fermée, vous ne pouvez plus remplir le questionnaire.</b></p>
+            {% if form_user_answers %}
+                <div class="alert alert-success">Info: votre dernier rendu date du <b>{{ form_user_answers.last_updated | date:'d F Y à H:i:s' }}</b></div>
+            {% else %}
+                <div class="alert alert-warning">Info: vous n'avez jamais sauvegardé le formulaire de réponse.</div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    {% if object.file_upload %}
+        {% include 'written_exams/submission.html' %}
+    {% endif %}
 </div>
 
 {% endblock %}

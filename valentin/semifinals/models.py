@@ -21,6 +21,8 @@ class Session(models.Model):
     status = models.IntegerField(choices=SessionStatuses.choices, verbose_name='Statut')
     subject = models.FileField(upload_to=get_session_subject_path, null=True, blank=True)
     contestant_instructions = models.TextField(max_length=1000)
+    form = models.ForeignKey(to='se_forms.FormInstance', null=True, blank=True, on_delete=models.SET_NULL)
+    file_upload = models.BooleanField(verbose_name='Les participants doivent rendre un fichier')
 
     def __str__(self):
         return self.display_name
@@ -31,10 +33,8 @@ class Session(models.Model):
         if user.is_staff:
             return cls.objects.all()
 
-        social = None
-        try:
-            social = user.social_auth.first()
-        except ObjectDoesNotExist:
+        social = user.social_auth.first()
+        if social is None:
             return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id__isnull=True)
 
         if social.extra_data.get('is_contestant', False) and social.extra_data['contestant'].get('assignation_semifinal') == 2:
