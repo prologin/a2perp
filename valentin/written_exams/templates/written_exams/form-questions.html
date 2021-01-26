@@ -22,6 +22,9 @@
     {% endif %}
 
     <h2>Vos réponses</h2>
+    {% if request.user.is_staff %}
+        <div class="alert alert-danger">Les membres du staff ne peuvent pas sauvegarder leurs réponses.</div>
+    {% endif %}
     <div style="display: none;" class="alert alert-warning" id="not-saved-alert"><i class="las la-exclamation-triangle"></i>&nbsp; Attention : vos réponses au questionnaire ne sont pas sauvegardées. Pensez bien à cliquer sur sauvegarder même si vous n'avez pas encore tout complété.</div>
     <form action="" method="POST">
         {% csrf_token %}
