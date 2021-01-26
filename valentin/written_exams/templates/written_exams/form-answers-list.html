@@ -1,0 +1,25 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Liste des réponses au formulaire {{ form_instance }}</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/form-list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'written_exams:form-list' %}">&lt;&nbsp; Retour à la liste des instances</a></small>
+    <h1 class="trb">Réponses à {{ form_instance }}</h1>
+
+    {% if object_list %}
+        <ul class="answers-list">
+            {% for o in object_list %}
+            {{ p }}
+            <li><a href=""><span>{{ o.user_full_name }}</span> <span>{{ o.last_updated | date:'d F Y à H:i:s' }}</span></a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a pas encore de réponses à cette instance de formulaire.</p>
+    {% endif %}
+</div>
+{% endblock %}

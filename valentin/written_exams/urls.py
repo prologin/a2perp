@@ -10,8 +10,9 @@ contestant_urls = [
 ]
 
 staff_urls = [
-    path('staff/form-test/', views.staff.FormTestingListView.as_view(), name='form-testing-list'),
-    path('staff/form-test/<uuid:id>/', views.staff.FormTestingView.as_view(), name='form-testing'),
+    path('staff/form/', views.staff.FormInstanceListView.as_view(), name='form-list'),
+    path('staff/form/<uuid:id>/test', views.staff.FormTestingView.as_view(), name='form-testing'),
+    path('staff/form/<uuid:id>/answers', views.staff.FormAnswersListView.as_view(), name='form-answers-list'),
 ]
 
 urlpatterns = contestant_urls + staff_urls

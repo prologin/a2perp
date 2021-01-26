@@ -6,24 +6,26 @@
 {% block content %}
 
 <div class="container">
+    {% if form.errors %}
+        <div class="alert alert-danger">Nom d'utilisateur ou mot de passe incorrect.</div>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="alert alert-secondary">Niveau d'accréditation insuffisant, contactez un admininstrateur.</div>
+        {% else %}
+            <div class="alert alert-secondary">Veuillez vous connecter pour voir cette page.</div>
+        {% endif %}
+    {% endif %}
 
     <center><p><a class="btn" href="{% url 'social:begin' 'prologin' %}?next={{ request.GET.next }}">Se connecter avec Prologin</a></p></center>
 
     {% if not settings.APP_NO_LOCAL_LOGIN %}
-        {% if form.errors %}
-            <p>Nom d'utilisateur ou mot de passe incorrect.</p>
-        {% endif %}
-
-        {% if next %}
-            {% if user.is_authenticated %}
-                <p>Niveau d'accréditation insuffisant, contactez un admininstrateur.</p>
-            {% else %}
-                <p>Veuillez vous connecter pour voir cette page.</p>
-            {% endif %}
-        {% endif %}
+        <center><p>OU</p></center>
 
         <form method="post" action="">
             {% csrf_token %}
+            <center>
             <table>
                 <tr>
                     <td><input type="text" name="username" required autofocus="on" placeholder="Identifiant"></td>
@@ -35,6 +37,7 @@
 
             <input class="btn" type="submit" value="Connexion">
             <input type="hidden" name="next" value="{{ next }}">
+            </center>
         </form>
     {% endif %}
 </div>

@@ -29,7 +29,7 @@ class FormInstance(models.Model):
 
 class UserAnswers(models.Model):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
-    form = models.ForeignKey(to='se_forms.FormInstance', on_delete=models.CASCADE)
+    form = models.ForeignKey(to='se_forms.FormInstance', related_name='user_answers', on_delete=models.CASCADE)
     answers = models.JSONField()
     last_updated = models.DateTimeField(auto_now=True)
 

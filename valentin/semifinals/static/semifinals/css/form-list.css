@@ -1,0 +1,24 @@
+.answers-list {
+    padding: 0;
+    list-style-type: none;
+}
+
+.answers-list > li {
+    width: auto;
+    background-color: rgb(224, 224, 224);
+    padding: 1em;
+    margin-top: 0.5em;
+}
+
+.answers-list > li > a {
+    text-decoration: none;
+    color: rgb(63, 63, 63);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row wrap;
+}
+
+.answers-list > li > a > span:first-child {
+    font-weight: bold;
+}
