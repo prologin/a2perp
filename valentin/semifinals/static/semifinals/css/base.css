@@ -302,7 +302,6 @@ span.help-text {
         rgba(242, 242, 241, 1) 100%
     );
     box-shadow: inset -1px 1px #fff0cf, inset 1px 2px #fdd889, inset -2px 2px #fbc761, inset 2px -2px #e5a01a;
-    inset 2px -2px #89ade4;
 }
 
 .window-title-icons > button {
