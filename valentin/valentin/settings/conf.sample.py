@@ -9,6 +9,11 @@ Application settings
 APP_SHOW_PIZZA_ICON = True
 APP_NO_LOCAL_LOGIN = False
 
+# Given as an indication to contestants, the real limit
+# must be set in the reverse proxy configuration
+APP_MAX_UPLOAD_SIZE = '4 Mo'
+
+
 '''
 Social Auth Settings
 '''
