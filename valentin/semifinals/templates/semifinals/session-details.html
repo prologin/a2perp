@@ -40,6 +40,9 @@
             <p><b>L'épreuve est fermée, vous ne pouvez plus remplir le questionnaire.</b></p>
             {% if form_user_answers %}
                 <div class="alert alert-success">Info: votre dernier rendu date du <b>{{ form_user_answers.last_updated | date:'d F Y à H:i:s' }}</b></div>
+                {% if object.form_allow_review %}
+                    <p><em>La relecture est autorisée pour cette épreuve, vous pouvez accéder à vos réponses en cliquant <a href="{% url 'written_exams:form-review' object.id %}">ici</a>.</em></p>
+                {% endif %}
             {% else %}
                 <div class="alert alert-warning">Info: vous n'avez jamais sauvegardé le formulaire de réponse.</div>
             {% endif %}

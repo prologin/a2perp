@@ -27,6 +27,14 @@ h2 {
     font-weight: 700;
 }
 
+h3 {
+    font-size: 1.8em;
+}
+
+h3, h4, h5, h6 {
+    margin: 0.3em 0 0.3em;
+}
+
 .prologin-title {
     font-weight: 400;
     font-size: 2.3em;
@@ -75,6 +83,15 @@ h2 {
     margin: 10px 0;
 }
 
+.btn-nobo {
+    color: white;
+    margin: 0;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+}
+
 .btn-warning {
     background-color: var(--color-warning);
 }
@@ -119,6 +136,24 @@ fieldset {
 .return-button > a {
     color: rgb(78, 78, 78);
     text-decoration: none;
+}
+
+/* Text colors helpers */
+
+.color-primary {
+    color: var(--color-primary);
+}
+
+.color-success {
+    color: var(--color-success);
+}
+
+.color-warning {
+    color: var(--color-warning);
+}
+
+.color-danger {
+    color: var(--color-danger);
 }
 
 /* Alerts */
@@ -195,4 +230,103 @@ span.help-text {
     padding-left: 1em;
     border-left: 0.3em solid rgb(78, 78, 78, 0.2);
     padding-right: 1em;
+}
+
+.form-element-error {
+    border-color: var(--color-danger);
+}
+
+.align-right {
+    text-align: right;
+}
+
+/* prologin windows xp look and feel */
+
+.window-title-bar {
+    font-family: sans-serif;
+    display: block;
+    background: rgb(21,32,122);
+    background: linear-gradient(90deg, rgba(21,32,122,1) 0%, rgba(42,50,124,1) 22%, rgba(77,83,138,1) 58%, rgba(106,110,153,1) 100%);
+    padding: 0.3em 0.4em 0.3em;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    align-items: center;
+    margin: 0;
+    border-bottom: 0.1em solid rgba(0, 0, 0, 0.151);
+}
+
+.window-title {
+    color: white;
+    font-size: 1em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.window-title > img {
+    vertical-align: middle;
+}
+
+.window-title-icons {
+    display: flex;
+    flex-direction: row;
+}
+
+.windows-button {
+    background-color: #D3D0C6;
+    outline: none;
+    font-size: 1em;
+    font-weight: normal;
+    font-family: sans-serif;
+    display: inline-block;
+    color: black;
+    text-decoration: none;
+    padding: 0.3em;
+    margin: 0.1em;
+    outline: 0.1em  black;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(236, 235, 229, 1) 86%,
+        rgba(216, 208, 196, 1) 100%
+    );
+}
+
+.windows-button:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(205, 202, 195, 1) 0%,
+        rgba(227, 227, 219, 1) 8%,
+        rgba(229, 229, 222, 1) 94%,
+        rgba(242, 242, 241, 1) 100%
+    );
+    box-shadow: inset -1px 1px #fff0cf, inset 1px 2px #fdd889, inset -2px 2px #fbc761, inset 2px -2px #e5a01a;
+    inset 2px -2px #89ade4;
+}
+
+.window-title-icons > button {
+    font-size: 0.8em;
+    width: 2em;
+    font-weight: bolder;
+    height: 2em;
+}
+
+/* prologin-windows-theme */
+.window:first-child {
+    margin-top: 0;
+}
+
+.window {
+    margin-top: 1.5em;
+}
+
+.window-body {
+    background-color: #D3D0C6;
+    padding: 1em 2em 1em;
+    display: block;
+}
+
+.window-body p {
+    margin: 0.2em 0 0.2em;
 }

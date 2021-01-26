@@ -9,7 +9,7 @@ class FormInstanceAdmin(admin.ModelAdmin):
 
 @admin.register(models.UserAnswers)
 class UserAnswersAdmin(admin.ModelAdmin):
-    list_display = ('user', 'form')
+    list_display = ('user_full_name', 'form')
     list_filter = ('form', )
     search_fields = ('user__last_name', 'user__first_name')
     readonly_fields = ('last_updated', )

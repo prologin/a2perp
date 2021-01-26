@@ -23,6 +23,8 @@ class Session(models.Model):
     contestant_instructions = models.TextField(max_length=1000)
     form = models.ForeignKey(to='se_forms.FormInstance', null=True, blank=True, on_delete=models.SET_NULL)
     file_upload = models.BooleanField(verbose_name='Les participants doivent rendre un fichier')
+    subject_download_count = models.IntegerField(default=0, verbose_name='Nb. de téléchargements du sujet')
+    form_allow_review = models.BooleanField(verbose_name='Autoriser la relecture')
 
     def __str__(self):
         return self.display_name

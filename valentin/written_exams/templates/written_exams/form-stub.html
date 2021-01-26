@@ -1,6 +1,23 @@
+{% if form.errors %}
+<div class="form-errors alert alert-danger">
+    <i class="las la-exclamation-circle"></i>&nbsp;Le formulaire rendu contient des erreurs. Corrigez-les afin de pouvoir sauvegarder vos réponses.<br>
+    {% if form.non_field_errors %}
+        <ul>
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endif %}
+
 {% for field in form.visible_fields %}
-<div class="form-element">
-    {{ field.errors }}
+<div class="form-element {% if field.errors %}form-element-error{% endif %}">
+    {% if field.errors %}
+        {% for error in field.errors %}
+        <p class="color-danger"><i class="las la-exclamation-circle"></i>&nbsp;<b class="color-danger">{{ error }}</b></p>
+        {% endfor %}
+    {% endif %}
     <p class="question">{{ field.label }}</p>
     {{ field }}
     <span class="help-text">{{ field.help_text | linebreaks }}</span>

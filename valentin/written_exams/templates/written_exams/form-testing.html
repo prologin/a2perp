@@ -9,8 +9,9 @@
 
 {% block content %}
 <div class="container">
-    <small class="return-button"><a href="#">&lt;&nbsp; Retour à la liste des instances</a></small>
+    <small class="return-button"><a href="{% url 'written_exams:form-testing-list' %}">&lt;&nbsp; Retour à la liste des instances</a></small>
     <h1 class="trb">Test du formulaire : {{ form_instance }}</h1>
+    <div class="alert alert-warning"><i class="las la-flask"></i>&nbsp;Ceci est une version de test du formulaire, vos réponses ne sont pas enregistrées.</div>
 
     {% if extracted_form.introduction %}
         <p>{{ extracted_form.introduction | linebreaks | urlize }}</p>

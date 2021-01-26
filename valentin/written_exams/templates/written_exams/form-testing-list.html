@@ -1,0 +1,39 @@
+{% extends 'semifinals/base.html' %}
+
+{% block base_extra_head %}
+<title>Liste des instances de formulaires</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt;&nbsp; Retour à l'espace organisateur</a></small>
+    <h1 class="trb">Liste des instances de formulaires</h1>
+
+    {% if object_list %}
+        <section class="window-list">
+        {% for instance in object_list %}
+            <article class="window">
+                <div class="window-title-bar">
+                    <span class="window-title"><img src="https://prologin.org/static/img/logo_cube.png" alt="icon prologin" width="22px" height="22px"><span>&nbsp;Instance de formulaire : {{ instance.id }}</span></span>
+                    <span class="window-title-icons">
+                        <button class="windows-button">❐</button>
+                        <button class="windows-button">—</button>
+                        <button class="windows-button">X</button>
+                    </span>
+                </div>
+                <div class="window-body">
+                    <p>Nom du formulaire : <b>{{ instance.display_name }}</b></p>
+                    <br><hr>
+                    <p class="align-right"><a href="{% url 'written_exams:form-testing' instance.id %}" class="windows-button">Tester ce formulaire</a></p>
+                </div>
+            </article>
+        {% endfor %}
+        </section>
+    {% else %}
+        <center>
+            <p>Il n'existe pas encore d'instance de formulaire</p>
+            <p>Vous pouvez créer une instance de formulaire dans l'<a href="{% url 'admin:se_forms_forminstance_add' %}">Admin Django</a></p>
+        </center>
+    {% endif %}
+</div>
+{% endblock %}

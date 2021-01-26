@@ -39,4 +39,8 @@ class UserAnswers(models.Model):
         verbose_name_plural = 'user answers'
 
     def __str__(self):
-        return f'{self.user}@{self.form}'
+        return f'{self.user}@{self.user_full_name}'
+
+    @property
+    def user_full_name(self):
+        return f'{self.user.first_name} {self.user.last_name}'

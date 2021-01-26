@@ -1,13 +1,13 @@
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, PermissionDenied
 from django.http import HttpResponseBadRequest, Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
-from .models import Submission
+from ..models import Submission
 from semifinals.models import Session, SessionStatuses
-from .forms import SubmissionForm
+from ..forms import SubmissionForm
 
 from se_forms import views as se_views
 from valentin.utils import EnsureStaffMixin
@@ -52,7 +52,37 @@ class FormSubmissionView(se_views.SEEditableFormView):
 
         return self.exam_session.form
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def form_valid(self, form):
+        if not self.request.user.is_staff:
+            return super().form_valid(form)
+        raise PermissionDenied
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['exam_session'] = self.exam_session
         return context
+
+class FormReviewView(FormSubmissionView):
+    template_name = 'written_exams/form-review.html'
+    http_method_names = ('get', )
+
+    def get_form_instance(self, id):
+        try:
+            self.exam_session = (Session
+                .get_user_sessions(self.request.user)
+                .get(id=id, form__isnull=False, form_allow_review=True, status=SessionStatuses.SUBMISSIONS_CLOSED))
+        except ObjectDoesNotExist:
+            raise Http404
+
+        return self.exam_session.form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.user_answer.last_updated:
+            # user answers is not yet saved <=> user did not submit the form during the exam
+            raise Http404
+        context['staff'] = self.request.user.is_staff
+        return context
+
+    def form_valid(self, form):
+        return HttpResponseBadRequest('Form is read only')

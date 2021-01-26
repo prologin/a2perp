@@ -1,0 +1,122 @@
+{% extends 'semifinals/base.html' %}
+{% load semifinals_status static %}
+
+{% block base_extra_head %}
+<title>Supervision d'épreuve</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/overseer.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:session-overseer-list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Supervision d'épreuve</h1>
+    <h4>{{ session.display_name }}</h4>
+    <br>
+
+    <table class="session-data">
+        <tr>
+            <td>Début </td>
+            <td><b>{{ session.date_start | date:'d F Y à H:i:s' }}</b></td>
+        </tr>
+        <tr>
+            <td>Fin </td>
+            <td><b>{{ session.date_end | date:'d F Y à H:i:s' }}</b></td>
+        </tr>
+        <tr>
+            <td>Statut</td>
+            <td style="color: {% session_status_color session.status %};"><b>{% session_status session.status %}</b></td>
+        </tr>
+        <tr>
+            <td>ID-ER Site Prologin</td>
+            <td>{{ session.upstream_id }}</td>
+        </tr>
+        <tr>
+            <td>Rendu de fichiers autorisé</td>
+            <td>{{ session.file_upload }}</td>
+        </tr>
+        <tr>
+            <td>Sujet</td>
+            {% if session.subject %}
+                {% if session.status == 2 %}
+                    <td><a class="btn btn-block btn-secondary" href="{% url 'semifinals:download-subject' session.id %}">Télécharger</a></td>
+                {% else %}
+                    <td>True</td>
+                {% endif %}
+            {% else %}
+            <td>Pas de sujet publié</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Formulaire</td>
+            <td>
+                {% if form %}
+                ID : {{ form.id }} <br>
+                Nom : {{ form.display_name }} <br>
+                Chemin : {{ form.subject_path }}
+                {% else %}
+                Pas de formulaire attaché
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Relecture formulaire autorisée</td>
+            <td>{{ session.form_allow_review }}</td>
+        </tr>
+    </table>
+    <h2>Statistiques</h2>
+    <p>Statistiques hors utilisateurs staff</p>
+    <div class="stats">
+        {% if form %}
+        <div>
+            <h4>Nb. de rendus formulaires</h4>
+            <span>{{ nb_form_handouts }}</span>
+        </div>
+        {% endif %}
+        {% if session.file_upload %}
+        <div>
+            <h4>Nb. de rendus de copies</h4>
+            <span>{{ nb_file_handouts }}</span>
+        </div>
+        {% endif %}
+        {% if session.subject %}
+        <div>
+            <h4>Nb. de téléchargements du sujet</h4>
+            <span>{{ session.subject_download_count }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+
+    {% if form %}
+    <h2>15 derniers rendus formulaires</h2>
+    <table class="last-handouts">
+        <tr>
+            <th>Utilisateur</th>
+            <th>Date & Heure</th>
+        </tr>
+        {% for answer in last_form_handouts %}
+        <tr>
+            <td>{{ answer.user.first_name }} {{ answer.user.last_name }}</td>
+            <td>{{ answer.last_updated | date:'d F Y à H:i:s' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if session.file_upload %}
+    <h2>15 derniers rendus copies</h2>
+    <table class="last-handouts">
+        <tr>
+            <th>Utilisateur</th>
+            <th>Date & heure</th>
+        </tr>
+        {% for file in last_file_handouts %}
+        <tr>
+            <td>{{ file.user.first_name }} {{ file.user.last_name }}</td>
+            <td>{{ file.last_updated | date:'d F Y à H:i:s' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

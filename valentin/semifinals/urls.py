@@ -12,6 +12,7 @@ urlpatterns = [
     path('session/<uuid:pk>/subject', views.DownloadSessionSubjectView.as_view(), name='download-subject'),
 
     path('overseer/', views.SessionOverseerList.as_view(), name='session-overseer-list'),
+    path('overseer/<uuid:session_id>/', views.SessionOverseer.as_view(), name='session-overseer'),
 
     path('contestant/', views.HomeContestant.as_view(), name='contestant-home'),
     path('organizer/', views.HomeOrganizer.as_view(), name='organizer-home'),

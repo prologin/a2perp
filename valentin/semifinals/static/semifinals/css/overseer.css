@@ -1,0 +1,48 @@
+.session-data {
+    border: 0.1em solid black;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.session-data td {
+    border: 0.1em solid black;
+    padding: 1em 1em;
+}
+
+.stats {
+    display: grid;
+    width: 100%;
+    gap: 1em 1em;
+}
+
+.stats > div {
+    text-align: center;
+    background-color: rgb(230, 230, 230);
+    padding: 2em;
+}
+
+.stats > div > h4 {
+    margin-bottom: 1em;
+}
+
+.stats > div > span {
+    font-size: 5em;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.last-handouts {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.last-handouts td, .last-handouts th {
+    border: 0.1em solid black;
+    padding: 0.5em 0.5em;
+}
+
+.last-handouts th {
+    text-align-last: left;
+}

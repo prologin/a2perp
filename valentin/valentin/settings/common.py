@@ -99,7 +99,6 @@ LOGIN_URL = '/login'
 PROLOGIN_OIDC_ENDPOINT = 'https://prologin.org/openid'
 
 SOCIAL_AUTH_PROLOGIN_SCOPE = [
-    'openid',
     'email',
     'contest',
     'security_clearance',

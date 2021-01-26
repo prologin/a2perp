@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from . import mixins
+from django.core.exceptions import ObjectDoesNotExist
+from . import mixins, models
 from django.views.generic import FormView
 from .file_forms import DynamicForm
 
@@ -7,7 +8,7 @@ class BaseSEFormView(LoginRequiredMixin, FormView):
 
     def get_form_instance(self, id):
         try:
-            return form_models.FormInstance.objects.get(id=id)
+            return models.FormInstance.objects.get(id=id)
         except ObjectDoesNotExist:
             raise Http404
 
@@ -24,8 +25,8 @@ class BaseSEFormView(LoginRequiredMixin, FormView):
         kwargs['extracted_fields'] = self.extracted_form.questions
         return kwargs
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['form_instance'] = self.form_instance
         context['extracted_form'] = self.extracted_form
         return context

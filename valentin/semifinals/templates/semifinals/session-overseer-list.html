@@ -21,7 +21,7 @@
                 </div>
                 <div>
                     <br>
-                    <a href="#" class="btn btn-success">ESPACE SUPERVISION</a>
+                    <a href="{% url 'semifinals:session-overseer' session.id %}" class="btn btn-success">ESPACE SUPERVISION</a>
                 </div>
             </article>
         {% endfor %}

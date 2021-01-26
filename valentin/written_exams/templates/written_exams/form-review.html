@@ -1,0 +1,37 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+
+{% block base_extra_head %}
+<title>Questionnaire {{ exam_session }}</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if not staff %}
+    <small class="return-button"><a href="{% url 'semifinals:session-details' exam_session.id %}">&lt;&nbsp; Retour à l'épreuve</a></small>
+    <h1 class="trb">{{ exam_session }} (Relecture)</h1>
+    {% else %}
+    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt;&nbsp; Retour à l'espace réponses</a></small>
+    <h1 class="trb">{{ exam_session }} : {{ user_answer.user.first_name }} {{ user_answer.user.last_name }}</h1>
+    {% endif %}
+
+    {% if user_answer.last_updated %}
+        <div class="alert alert-secondary"><i class="las la-user-clock"></i>&nbsp; Dernier rendu du formulaire <b>{{ user_answer.last_updated | date:'d F Y à H:i:s' }}</b></div>
+    {% else %}
+        <div class="alert alert-secondary"><i class="las la-user-clock"></i>&nbsp; <b>Vous n'avez pas rendu ce formulaire</b></div>
+    {% endif %}
+
+    <h2>Vos réponses</h2>
+    <div class="alert alert-primary">Ce questionnaire est en lecture seule.</div>
+    <form action="#" method="GET">
+        {% include 'written_exams/form-stub.html' with form=form %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    document.querySelectorAll('input, textarea, select').forEach(e => { e.setAttribute("disabled", "true"); });
+</script>
+{% endblock %}

@@ -26,7 +26,7 @@
             <p>Dès que l'épreuve sera ouverte, vous pourrez accéder au sujet et à l'interface de rendu depuis cette page</p>
             {% endif %}
             <p class="session-status-message">{% session_status_message session.status %}</p>
-            {% if session.status == 2 %}
+            {% if session.status == 2 or session.status == 3 %}
             <a href="{% url 'semifinals:session-details' session.id %}" class="btn btn-block">OUVRIR</a>
             {% endif %}
         </article>
