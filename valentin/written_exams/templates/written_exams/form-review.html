@@ -3,7 +3,11 @@
 
 
 {% block base_extra_head %}
+{% if staff %}
+<title>Réponses de {{ user_answer.user.first_name }} {{ user_answer.user.last_name }} à {{ form_instance }}</title>
+{% else %}
 <title>Questionnaire {{ exam_session }}</title>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -12,8 +16,8 @@
     <small class="return-button"><a href="{% url 'semifinals:session-details' exam_session.id %}">&lt;&nbsp; Retour à l'épreuve</a></small>
     <h1 class="trb">{{ exam_session }} (Relecture)</h1>
     {% else %}
-    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt;&nbsp; Retour à l'espace réponses</a></small>
-    <h1 class="trb">{{ exam_session }} : {{ user_answer.user.first_name }} {{ user_answer.user.last_name }}</h1>
+    <small class="return-button"><a href="{% url 'written_exams:form-answers-list' form_instance.id %}">&lt;&nbsp; Retour à l'espace réponses</a></small>
+    <h1 class="trb">{{ form_instance }}</h1>
     {% endif %}
 
     {% if user_answer.last_updated %}
@@ -22,7 +26,12 @@
         <div class="alert alert-secondary"><i class="las la-user-clock"></i>&nbsp; <b>Vous n'avez pas rendu ce formulaire</b></div>
     {% endif %}
 
+
+    {% if staff %}
+    <h2>Réponses de {{ user_answer.user.first_name }} {{ user_answer.user.last_name }}</h2>
+    {% else %}
     <h2>Vos réponses</h2>
+    {% endif %}
     <div class="alert alert-primary">Ce questionnaire est en lecture seule.</div>
     <form action="#" method="GET">
         {% include 'written_exams/form-stub.html' with form=form %}

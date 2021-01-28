@@ -42,3 +42,20 @@ class FormAnswersListView(EnsureStaffMixin, ListView):
         context = super().get_context_data(*args, **kwargs)
         context['form_instance'] = self.form_instance
         return context
+
+class FormAnswersDetailView(EnsureStaffMixin, se_views.SEFormView):
+    template_name = 'written_exams/form-review.html'
+    http_method_names = ('get',)
+
+    def get_extracted_form(self):
+        try:
+            self.user_answer = se_models.UserAnswers.objects.get(id=self.kwargs.pop('id'))
+        except ObjectDoesNotExist:
+            raise Http404
+        self.form_instance = self.user_answer.form
+        return self.form_instance.get_form()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['staff'] = True
+        return context

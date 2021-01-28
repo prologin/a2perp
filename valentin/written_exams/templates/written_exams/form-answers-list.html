@@ -15,7 +15,7 @@
         <ul class="answers-list">
             {% for o in object_list %}
             {{ p }}
-            <li><a href=""><span>{{ o.user_full_name }}</span> <span>{{ o.last_updated | date:'d F Y à H:i:s' }}</span></a></li>
+            <li><a href="{% url 'written_exams:form-answers' o.id %}"><span>{{ o.user_full_name }}</span> <span>{{ o.last_updated | date:'d F Y à H:i:s' }}</span></a></li>
             {% endfor %}
         </ul>
     {% else %}
