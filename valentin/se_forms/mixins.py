@@ -10,6 +10,8 @@ class FormInitialUserAnswersMixin():
             return models.UserAnswers(user=user, form=form_instance)
 
     def get_initial(self):
+        if getattr(self, 'user_answer', None):
+            return self.user_answer.answers
         self.user_answer = self.get_user_answer(self.form_instance, self.request.user)
         return self.user_answer.answers
 
