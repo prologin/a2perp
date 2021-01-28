@@ -13,6 +13,7 @@ staff_urls = [
     path('staff/form/', views.staff.FormInstanceListView.as_view(), name='form-list'),
     path('staff/form/<uuid:id>/test', views.staff.FormTestingView.as_view(), name='form-testing'),
     path('staff/form/<uuid:id>/answers', views.staff.FormAnswersListView.as_view(), name='form-answers-list'),
+    path('staff/form/<uuid:id>/export', views.staff.FormGlobalExportView.as_view(), name='form-export'),
     path('staff/form-answer/<int:id>', views.staff.FormAnswersDetailView.as_view(), name='form-answers'),
 ]
 

@@ -24,6 +24,7 @@
                 <div class="window-body">
                     <p>Nom du formulaire : <b>{{ instance.display_name }}</b></p>
                     <br><hr>
+                    <p class="align-right"><a href="{% url 'written_exams:form-export' instance.id %}" class="windows-button">Exporter les réponses</a></p>
                     <p class="align-right"><a href="{% url 'written_exams:form-answers-list' instance.id %}" class="windows-button">Voir les réponses</a></p>
                     <p class="align-right"><a href="{% url 'written_exams:form-testing' instance.id %}" class="windows-button">Tester ce formulaire</a></p>
                 </div>
