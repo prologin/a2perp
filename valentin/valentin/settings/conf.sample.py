@@ -13,6 +13,10 @@ APP_NO_LOCAL_LOGIN = False
 # must be set in the reverse proxy configuration
 APP_MAX_UPLOAD_SIZE = '4 Mo'
 
+# Use Nginx's X-Accel-Redirect header to delegate
+# file download views to nginx directly
+APP_USE_X_ACCEL_REDIRECT = False
+APP_X_ACCEL_PATH = '/media'
 
 '''
 Social Auth Settings

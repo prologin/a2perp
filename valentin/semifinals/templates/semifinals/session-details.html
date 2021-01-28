@@ -24,7 +24,7 @@
         {% if object.status == 2 %}
         <p>{{ object.contestant_instructions | linebreaks | urlize }}</p>
             {% if object.subject %}
-                <a href="{% url 'semifinals:download-subject' object.id %}" class="btn btn-secondary btn-block">TELECHARGER LE SUJET</a>
+                <a href="{% url 'semifinals:download-subject' object.id %}" target="_blank" class="btn btn-secondary btn-block">TELECHARGER LE SUJET</a>
             {% endif %}
         {% else %}
         <h4>L'épreuve est fermée, vous ne pouvez plus accéder au sujet.</h4>

@@ -1,13 +1,16 @@
 from django.views.generic import ListView, DetailView, View, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.db.models import Q, F
 from django.shortcuts import get_object_or_404
 from . import models
 from valentin.utils import EnsureStaffMixin
 from written_exams.models import Submission
+
+from pathlib import Path
 
 # overseer
 from written_exams import models as we_models
@@ -58,6 +61,12 @@ class SessionDetail(LoginRequiredMixin, DetailView):
 class DownloadSessionSubjectView(LoginRequiredMixin, View):
     http_method_names = ('get',)
 
+    def get_x_accel(self, session):
+        res = HttpResponse(status=200)
+        res['X-Accel-Redirect'] = Path(settings.APP_X_ACCEL_PATH) / Path(session.subject.path).relative_to(settings.MEDIA_ROOT)
+        res['Content-Type'] = ''
+        return res
+
     def get(self, request, pk, **kwargs):
         session = None
         try:
@@ -71,6 +80,10 @@ class DownloadSessionSubjectView(LoginRequiredMixin, View):
         if not request.user.is_staff:
             session.subject_download_count = F('subject_download_count') + 1
             session.save()
+
+        if settings.APP_USE_X_ACCEL_REDIRECT:
+            return self.get_x_accel(session)
+
         return FileResponse(open(session.subject.path, 'rb'), as_attachment=True)
 
 class SessionOverseerList(EnsureStaffMixin, ListView):
