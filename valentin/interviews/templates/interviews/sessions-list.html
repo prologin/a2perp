@@ -44,13 +44,11 @@
                 {% if request.user.is_staff %}
                     {% if s.status == 1 %}
                         <a href="{% url 'interviews:dispo-select' s.id %}" class="btn btn-block">Indiquer mes disponibilités</a>
-                        <button class="btn btn-block">Centre de supervision</button>
                     {% elif s.status == 2 or s.status == 3 %}
                         <a href="{% url 'interviews:interviewer-interviews' s.id %}" class="btn btn-success btn-block">Mes entretiens</a>
                         {% if s.status == 2 %}
                         <a href="{% url 'interviews:dispo-select' s.id %}" class="btn btn-block">Indiquer mes disponibilités</a>
                         {% endif %}
-                        <button class="btn btn-block">Centre de supervision</button>
                     {% endif %}
                 {% else %}
                     <a href="{% url 'interviews:contestant-portal' s.id %}" class="btn btn-block">Mon Entretien</a>
