@@ -1,0 +1,63 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Sessions d'entretien</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt;&nbsp; Retour à l'accueil</a></small>
+    <h1 class="trb">Sessions d'entretiens</h1>
+    <p>Vous trouverez ci-dessous la liste des sessions d'entretiens auxquelles vous pouvez participer.</p>
+
+    <section id="sessions-list">
+        {% for s in object_list %}
+        <article href="#" class="session-instance">
+            <div class="left">
+                <small>{{ s.id }}</small>
+                <h3>{{ s.name }} {% if s.status == 1 %}<i class="las la-eye-slash"></i>{% endif %}</h3>
+                <div>
+                    {% if request.user.is_staff %}
+                        {% if s.status == 1 %}
+                            <p><b>PHASE 1</b> : Les organisateurs indiquent leurs disponibilités.</p>
+                            <p>Les candidats ne voient pas encore la session</p>
+                        {% elif s.status == 2 %}
+                            <p><b>PHASE 2</b> : Les candidats choisissent leur créneau d'entretien.</p>
+                        {% elif s.status == 3 %}
+                            <p>La session est verrouillée. Les candidats peuvent accéder à leur convocation.</p>
+                            <p>Vous pouvez accéder à la liste de vos entretiens.</p>
+                        {% endif %}
+                    {% else %}
+                        {% if s.status == 2 %}
+                            <p>Vous devez choisir une date pour votre entretien oral.</p>
+                            <p>Pour cela cliquez sur <b>Mon entretien</b></p>
+                        {% elif  s.status == 3 %}
+                            <p>Les choix d'entretiens sont terminés.</p>
+                            <p>Cliquez sur mon entretien pour plus d'informations.</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="right">
+                {% if request.user.is_staff %}
+                    {% if s.status == 1 %}
+                        <a href="{% url 'interviews:dispo-select' s.id %}" class="btn btn-block">Indiquer mes disponibilités</a>
+                        <button class="btn btn-block">Centre de supervision</button>
+                    {% elif s.status == 2 or s.status == 3 %}
+                        <a href="{% url 'interviews:interviewer-interviews' s.id %}" class="btn btn-success btn-block">Mes entretiens</a>
+                        {% if s.status == 2 %}
+                        <a href="{% url 'interviews:dispo-select' s.id %}" class="btn btn-block">Indiquer mes disponibilités</a>
+                        {% endif %}
+                        <button class="btn btn-block">Centre de supervision</button>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'interviews:contestant-portal' s.id %}" class="btn btn-block">Mon Entretien</a>
+                {% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

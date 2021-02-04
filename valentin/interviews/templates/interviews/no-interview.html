@@ -1,0 +1,15 @@
+{% extends 'semifinals/base.html' %}
+
+{% block base_extra_head %}
+<title>Erreur 404 : Pas d'entretien</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Erreur 404</h1>
+    <center><p>Vous n'avez pas sélectionné votre créneau d'entretien avant la date limite. Si vous souhaitez quand même passer
+        un entretien, veuillez contacter Prologin par mail (<a href="mailto:info@prologin.org">info@prologin.org</a>) au plus vite.
+    </p></center>
+</div>
+{% endblock %}

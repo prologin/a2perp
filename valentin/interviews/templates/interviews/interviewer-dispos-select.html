@@ -1,0 +1,43 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Sélection des disponibilités</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Sélections des disponibilités</h1>
+    <p>Session : <b>{{ session }} <small>({{ session.id }})</small></b></p>
+    <br>
+
+    <h3>Message de l'administrateur</h3>
+    <p>{{ session.description | linebreaks | urlize }}</p>
+    <br><br>
+
+    <h3>Sélectionnez vos disponibilités</h3>
+    <p>Cochez les créneaux auxquels vous êtes sûrs de pouvoir participer.</p>
+    {% if session.in_phase_1 %}
+    <p><em>Remarque : jusqu'à la fin de la phase 1 vous pouvez vous désister des créneaux que vous avez sélectionné en les décochant.</em></p>
+    {% elif session.in_phase_2 %}
+    <p><em>Remarque : La session est en phase 2, vous pouvez ajouter des nouvelles disponibilités mais vous ne pouvez pas vous désister des créneaux sur lesquels vous vous êtes engagés.</em></p>
+    {% endif %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <ul class="slot-list">
+            {% for val, text in form.fields.slot_choices.choices %}
+            <li>
+                <label for="id_slot_choice_{{ val }}">
+                    {{ text }}
+                </label>
+                <input type="checkbox" id="id_slot_choice_{{ val }}" name="slot_choices" value="{{ val }}" {% if val in form.slot_choices.value %}checked {% if session.in_phase_2 %}disabled{% endif %}{% endif %}>
+            </li>
+            {% endfor %}
+        </ul>
+        <button class="btn btn-block btn-success">Enregistrer mes choix</button>
+    </form>
+</div>
+{% endblock %}

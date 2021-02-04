@@ -1,0 +1,24 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Notation de {{ object.contestant_full_name }}</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:interviewer-interviews' session.id %}">&lt;&nbsp; Retour au dérouleur prévisionnel entretiens</a></small>
+    <h1 class="trb">Évaluation de {{ object.contestant_full_name }}</h1>
+    {% if form.is_valid %}
+    <div class="alert alert-success">Vos modifications ont été enregistrées.</div>
+    {% endif %}
+    <p>Vous évaluez le candidat dans le cadre de la session <b>{{ session }}</b></p>
+    <br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'written_exams/form-stub.html' with form=form %}
+        <button class="btn btn-success btn-block">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

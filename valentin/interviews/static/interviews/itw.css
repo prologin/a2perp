@@ -1,0 +1,60 @@
+:root {
+    --cool-bg-gray: rgb(239, 239, 239);
+}
+
+.session-instance {
+    display: flex;
+    margin: 2em 0;
+    background-color: var(--cool-bg-gray);
+    padding: 2em;
+    color: black;
+    text-decoration: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.session-instance small {
+    color: rgb(70, 70, 70);
+}
+
+.session-instance .right {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 4em;
+}
+
+.slot-list {
+    padding: 0.2em;
+}
+
+.slot-list li {
+    padding: 1em;
+    margin: 1em 0;
+    background-color: var(--cool-bg-gray);
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.interview-box {
+    background-color: var(--cool-bg-gray);
+    padding: 1em;
+}
+
+.interview-box h4 {
+    font-size: 3rem;
+}
+
+
+.va-middle {
+    display: flex;
+    align-items: center;
+}
+
+.slot-list-spd li {
+    padding: 0.2em 1em;
+}

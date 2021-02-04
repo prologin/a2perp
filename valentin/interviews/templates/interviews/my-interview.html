@@ -1,0 +1,32 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Mon entretien</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Votre entretien</h1>
+
+    <h3>Informations importantes</h3>
+    <p>{{ object.slot.session.description | linebreaks | urlize }}</p>
+    <br>
+
+    <h3>Mon entretien</h3>
+    <br>
+    <article class="interview-box">
+        <h4>{{ object.slot.local_display }}</h4>
+        <p>Votre entretien se déroulera en ligne.</p>
+        <p>Vous passerez votre entretien avec <b>{{ object.interviewer }}</b>, membre Prologin.</p>
+        <p>{{ settings.APP_ITW_MEET_UNLOCK_BEFORE }} minute(s) avant le début de votre entretien un bouton apparaîtra avec un lien
+            vers la salle de visioconférence.<br>Rendez-vous donc sur cette page, quelques minutes avant votre entretien.
+        </p>
+        {% if object.can_see_meet_link and not object.interviewer.meet_link is None %}
+        <a href="{{ object.interviewer.meet_link }}" target="_blank" class="btn btn-success btn-block">Accéder à la visioconférence</a>
+        {% endif %}
+    </article>
+</div>
+{% endblock %}

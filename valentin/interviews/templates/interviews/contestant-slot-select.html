@@ -1,0 +1,42 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Choix de l'entretien</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Choix de votre date d'entretien</h1>
+    {% if form.errors %}
+    <div class="alert alert-danger"><i class="las la-exclamation-circle"></i>&nbsp; L'enregistrement a échoué. Le créneau sélectionné n'est peut être plus disponible. Vous pouvez rééssayer. Si le problème persiste, contactez Prologin</div>
+    {% endif %}
+    <p>Session : <b>{{ session }} <small>({{ session.id }})</small></b></p>
+    <br>
+
+    <h3>Informations aux candidats</h3>
+    <p>{{ session.description | linebreaks | urlize }}</p>
+    <br><br>
+
+    <h3>Choisissez la date et l'heure de votre entretien</h3>
+    <p>Sélectionnez la date d'entretien qui vous convient le mieux.</p>
+    <p><em>Remarque : votre choix est définitif, si vous désirez le changer après coup contacter Prologin par mail à l'adresse <a href="mailto:info@prologin.org">info@prologin.org</a>.</em></p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <ul class="slot-list">
+            {% for val, text in form.fields.slot_choice.choices %}
+            <li>
+                <label for="id_slot_choice_{{ val }}">
+                    {{ text }}
+                </label>
+                <input type="radio" id="id_slot_choice_{{ val }}" name="slot_choice" value="{{ val }}">
+            </li>
+            {% endfor %}
+        </ul>
+        <button class="btn btn-block btn-success">Valider définitivement mon choix</button>
+    </form>
+</div>
+{% endblock %}

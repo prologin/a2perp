@@ -1,0 +1,29 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Mes entretiens</title>
+<link rel="stylesheet" href="{% static 'interviews/itw.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'interviews:list' %}">&lt;&nbsp; Retour à la liste des sessions</a></small>
+    <h1 class="trb">Dérouleur Prévisionnel Entretiens</h1>
+
+    <p>Voici la liste de vos entretiens pour la session <b>{{ session }}</b></p>
+
+    {% if object_list %}
+    <ul class="slot-list slot-list-spd">
+        {% for object in object_list %}
+        <li>
+            <span class="va-middle"><b>{{ object.slot.local_display }}</b>&nbsp;&nbsp; {{ object.contestant_full_name }}</span>
+            <span><a href="{% url 'interviews:contestant-grading' session.id object.contestant_id %}" class="btn">Notation</a></span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <center><p>Vous n'avez pas encore d'entretiens programmés.</p></center>
+    {% endif %}
+</div>
+{% endblock %}

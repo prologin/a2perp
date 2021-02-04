@@ -1,0 +1,17 @@
+{% extends 'semifinals/base.html' %}
+
+{% block base_extra_head %}
+<title>Profil Organisateur</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:home' %}">&lt;&nbsp; Retour à l'espace organisateur</a></small>
+    <h1 class="trb">Mon Profil Organisateur</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% include 'written_exams/form-stub.html' with form=form %}
+        <button class="btn btn-block">ENREGISTRER</button>
+    </form>
+</div>
+{% endblock %}
