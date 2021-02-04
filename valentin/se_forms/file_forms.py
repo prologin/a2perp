@@ -6,66 +6,72 @@ from django.core.exceptions import SuspiciousFileOperation, ValidationError
 Exceptions
 """
 
+
 class MalformedForm(ValidationError):
     pass
 
+
 class MalformedQuestion(MalformedForm):
     pass
+
 
 class MalformedQuestionChoice(MalformedQuestion):
     pass
 
 
 class DynamicForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
-        extracted_fields = kwargs.pop('extracted_fields', None)
+        extracted_fields = kwargs.pop("extracted_fields", None)
         super(DynamicForm, self).__init__(*args, **kwargs)
         if extracted_fields:
             for id, field in extracted_fields:
                 self.fields[id] = field
 
 
-class QuestionFieldBuilder():
+class QuestionFieldBuilder:
     FIELD_TYPES = {
         # field type in raw data : function identifier inside this class
-        'choice': 'get_choice_field',
-        'multiple_choices': 'get_multiple_choices_field',
-        'text': 'get_char_field',
-        'integer': 'get_integer_field',
-        'long_text': 'get_long_text_field',
+        "choice": "get_choice_field",
+        "multiple_choices": "get_multiple_choices_field",
+        "text": "get_char_field",
+        "integer": "get_integer_field",
+        "long_text": "get_long_text_field",
     }
 
     def __init__(self, data):
         self.data = data
 
-
     @staticmethod
     def get_sanitized_choices(data):
         choices = None
         try:
-            choices = data['choices']
+            choices = data["choices"]
         except KeyError:
-            raise MalformedQuestion("choice-based question does not contains choices list")
+            raise MalformedQuestion(
+                "choice-based question does not contains choices list"
+            )
 
         if not isinstance(choices, list):
-            raise MalformedQuestion('Choices must be an array')
+            raise MalformedQuestion("Choices must be an array")
 
         cleaned_choices = []
 
         for choice in choices:
             if not isinstance(choice, dict):
-                raise MalformedQuestionChoice('Choice element must be a dict')
+                raise MalformedQuestionChoice("Choice element must be a dict")
             try:
-                cleaned_choices.append((str(choice['id']), str(choice['text'])))
+                cleaned_choices.append((str(choice["id"]), str(choice["text"])))
             except KeyError:
-                raise MalformedQuestionChoice('Choice element must contain at least id and text')
-            except: # NOQA
+                raise MalformedQuestionChoice(
+                    "Choice element must contain at least id and text"
+                )
+            except:  # NOQA
                 # if someone has a better idea please go PR
-                raise MalformedQuestionChoice('Choice elements id and text must be stringable')
+                raise MalformedQuestionChoice(
+                    "Choice elements id and text must be stringable"
+                )
 
         return tuple(cleaned_choices)
-
 
     @classmethod
     def get_choice_field(cls, data):
@@ -74,8 +80,8 @@ class QuestionFieldBuilder():
             choices=choices,
             required=False,
             widget=forms.RadioSelect(),
-            help_text=str(data.get('help_text')),
-            label=str(data['text']),
+            help_text=str(data.get("help_text")),
+            label=str(data["text"]),
         )
 
     @classmethod
@@ -85,38 +91,38 @@ class QuestionFieldBuilder():
             choices=choices,
             required=False,
             widget=forms.CheckboxSelectMultiple(),
-            help_text=str(data.get('help_text')),
-            label=str(data['text']),
+            help_text=str(data.get("help_text")),
+            label=str(data["text"]),
         )
 
     @staticmethod
     def get_char_field(data):
         return forms.CharField(
-            max_length=int(data['max_length']),
-            min_length=int(data.get('min_length', 0)),
-            help_text=str(data.get('help_text')),
+            max_length=int(data["max_length"]),
+            min_length=int(data.get("min_length", 0)),
+            help_text=str(data.get("help_text")),
             required=False,
-            label=str(data['text']),
+            label=str(data["text"]),
         )
 
     @staticmethod
     def get_integer_field(data):
         return forms.IntegerField(
-            max_value=int(data['max_value']),
-            min_value=int(data.get('min_value', 0)),
-            help_text=str(data.get('help_text')),
+            max_value=int(data["max_value"]),
+            min_value=int(data.get("min_value", 0)),
+            help_text=str(data.get("help_text")),
             required=False,
-            label=str(data['text']),
+            label=str(data["text"]),
         )
 
     @staticmethod
     def get_long_text_field(data):
         return forms.CharField(
             widget=forms.Textarea(),
-            max_length=int(data['max_length']),
-            min_length=int(data.get('min_length', 0)),
-            help_text=str(data.get('help_text')),
-            label=str(data['text']),
+            max_length=int(data["max_length"]),
+            min_length=int(data.get("min_length", 0)),
+            help_text=str(data.get("help_text")),
+            label=str(data["text"]),
             required=False,
         )
 
@@ -125,12 +131,14 @@ class QuestionFieldBuilder():
         try:
             func = getattr(cls, cls.FIELD_TYPES[field_type])
             if not callable(func):
-                raise TypeError('FIELD_TYPES values must be callable')
+                raise TypeError("FIELD_TYPES values must be callable")
             return func
         except AttributeError:
-            raise NotImplementedError('Callable mentioned in FIELD_TYPES does not exist in class')
+            raise NotImplementedError(
+                "Callable mentioned in FIELD_TYPES does not exist in class"
+            )
         except KeyError:
-            raise MalformedQuestion('Question type is not valid')
+            raise MalformedQuestion("Question type is not valid")
 
     def build(self):
         """
@@ -144,39 +152,41 @@ class QuestionFieldBuilder():
         question = self.data
 
         if not isinstance(question, dict):
-            raise MalformedQuestion('Question must be a dict')
+            raise MalformedQuestion("Question must be a dict")
 
         try:
-            self.id = str(question['id'])
-            self.type = str(question['type'])
+            self.id = str(question["id"])
+            self.type = str(question["type"])
         except KeyError:
-            raise MalformedQuestion('Question fields id and type are required')
-        except: # NOQA
-            raise MalformedQuestion('Question fields id and type must be stringable')
+            raise MalformedQuestion("Question fields id and type are required")
+        except:  # NOQA
+            raise MalformedQuestion("Question fields id and type must be stringable")
 
         try:
             self.form_field = self.get_field_converter_from_string(self.type)(question)
         except KeyError as ke:
-            raise MalformedQuestion(f'Question {self.id} is missing mandatory key {str(ke)}')
+            raise MalformedQuestion(
+                f"Question {self.id} is missing mandatory key {str(ke)}"
+            )
         except MalformedQuestionChoice as e:
-            raise MalformedQuestionChoice(f'Question {self.id} : {str(e)}')
+            raise MalformedQuestionChoice(f"Question {self.id} : {str(e)}")
         return (self.id, self.form_field)
 
 
-class FormBuilder():
-    '''
+class FormBuilder:
+    """
     This class builds a django.forms.Form (unbound) from dict-like objects
     that follows a specific schema.
-    '''
+    """
 
-    '''
+    """
     (name, type_converter_function, default)
     default == NotImplemented <=> required metadata
     reserved keywords : questions
-    '''
+    """
     METADATA = (
-        ('title', str, NotImplemented),
-        ('introduction', str, None),
+        ("title", str, NotImplemented),
+        ("introduction", str, None),
     )
 
     def __init__(self, raw_data):
@@ -185,24 +195,24 @@ class FormBuilder():
     def populate_metadata(self):
         for name, conv, default in self.METADATA:
             if default is NotImplemented and not self.raw_data.get(name):
-                raise MalformedForm(f'Missing mandatory metadata {name}')
+                raise MalformedForm(f"Missing mandatory metadata {name}")
 
             setattr(self, name, conv(self.raw_data.get(name, default)))
 
     def build(self):
         if not isinstance(self.raw_data, dict):
-            raise MalformedForm('raw_data root must be a dict')
+            raise MalformedForm("raw_data root must be a dict")
 
         self.populate_metadata()
 
         questions = None
         try:
-            questions = self.raw_data['questions']
+            questions = self.raw_data["questions"]
         except KeyError:
-            raise MalformedForm('Form does not contain questions')
+            raise MalformedForm("Form does not contain questions")
 
         if not isinstance(questions, list):
-            raise MalformedForm('Form questions must be a list')
+            raise MalformedForm("Form questions must be a list")
 
         self.questions = tuple(QuestionFieldBuilder(q).build() for q in questions)
         self.form = DynamicForm(extracted_fields=self.questions)
@@ -223,16 +233,22 @@ class FormBuilder():
         return cls(json.loads(file_object.read()))
 
 
-'''
+"""
 Auxiliary functions
-'''
+"""
+
 
 def validate_form_path(base_path, path):
     try:
         if path.resolve() < base_path.resolve():
-            raise SuspiciousFileOperation('Staff user is attempting forbidden filesystem traversal.')
+            raise SuspiciousFileOperation(
+                "Staff user is attempting forbidden filesystem traversal."
+            )
     except RuntimeError:
-        raise SuspiciousFileOperation('Staff user tried to trick form path validator in an infinite loop')
+        raise SuspiciousFileOperation(
+            "Staff user tried to trick form path validator in an infinite loop"
+        )
+
 
 def get_full_subject_path(path):
     form_path = settings.PROLOGIN_FORMS_REPOSITORY / path

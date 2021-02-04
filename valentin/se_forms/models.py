@@ -5,12 +5,13 @@ from django.db import models
 import uuid
 from . import file_forms, validators
 
+
 class FormInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     subject_path = models.CharField(
         max_length=200,
-        help_text='Path to the subject relative to PROLOGIN_FORMS_REPOSITORY',
-        validators=(validators.validate_form,)
+        help_text="Path to the subject relative to PROLOGIN_FORMS_REPOSITORY",
+        validators=(validators.validate_form,),
     )
     display_name = models.CharField(max_length=80, unique=True)
 
@@ -27,20 +28,25 @@ class FormInstance(models.Model):
         with open(file_forms.get_full_subject_path(self.subject_path)) as f:
             return file_forms.FormBuilder.load_yaml(f).build()
 
+
 class UserAnswers(models.Model):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
-    form = models.ForeignKey(to='se_forms.FormInstance', related_name='user_answers', on_delete=models.CASCADE)
+    form = models.ForeignKey(
+        to="se_forms.FormInstance",
+        related_name="user_answers",
+        on_delete=models.CASCADE,
+    )
     answers = models.JSONField()
     last_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = (('user', 'form'),)
-        verbose_name = 'user answers'
-        verbose_name_plural = 'user answers'
+        unique_together = (("user", "form"),)
+        verbose_name = "user answers"
+        verbose_name_plural = "user answers"
 
     def __str__(self):
-        return f'{self.user}@{self.user_full_name}'
+        return f"{self.user}@{self.user_full_name}"
 
     @property
     def user_full_name(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f"{self.user.first_name} {self.user.last_name}"

@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from . import file_forms
 
+
 def validate_form(path):
     try:
         form = None
@@ -10,4 +11,4 @@ def validate_form(path):
             # raises ValidationError children exceptions
             form.build()
     except OSError:
-        raise ValidationError('Failed to open file at given path.')
+        raise ValidationError("Failed to open file at given path.")
