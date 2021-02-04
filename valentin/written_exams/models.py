@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 from pathlib import Path
 

@@ -1,2 +1,2 @@
-from . import contestant
-from . import staff
+from . import contestant  # noqa
+from . import staff  # noqa

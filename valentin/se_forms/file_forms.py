@@ -142,7 +142,7 @@ class QuestionFieldBuilder:
 
     def build(self):
         """
-        Takes question dict and return (question_id, django_formfield) \in (str, django.Forms.Field)
+        Takes question dict and return (question_id, django_formfield) in (str, django.Forms.Field)
         may raise se_forms.MalformedQuestion when the code is OK.
 
         However if the code happens to not be ok it may raise TypeError and/or NotImplementedError

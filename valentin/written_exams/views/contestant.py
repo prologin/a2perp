@@ -14,7 +14,6 @@ from semifinals.models import Session, SessionStatuses
 from ..forms import SubmissionForm
 
 from se_forms import views as se_views
-from valentin.utils import EnsureStaffMixin
 
 
 class SubmissionUploadView(LoginRequiredMixin, View):

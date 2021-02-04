@@ -10,7 +10,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.http import HttpResponseGone, HttpResponseNotFound, Http404
-from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
 from django.db import transaction

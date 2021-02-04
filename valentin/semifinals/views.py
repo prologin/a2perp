@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import FileResponse, Http404, HttpResponse
 from django.urls import reverse
-from django.db.models import Q, F
+from django.db.models import F
 from django.shortcuts import get_object_or_404
 from . import models
 from valentin.utils import EnsureStaffMixin
@@ -119,7 +119,7 @@ class SessionOverseer(EnsureStaffMixin, TemplateView):
             context["nb_file_handouts"] = file_handouts.count()
             context["last_file_handouts"] = file_handouts.order_by("-last_updated")[:15]
 
-        if not session.form is None:
+        if session.form is not None:
             form_instance = session.form
             answers = se_models.UserAnswers.objects.filter(form=form_instance)
             context["nb_form_handouts"] = answers.count()
