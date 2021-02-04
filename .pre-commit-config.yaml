@@ -1,5 +1,5 @@
 files: valentin/.*
-exclude: valentin/.*/migrations/.*
+exclude: "(valentin/.*/migrations/.*|valentin/valentin/settings/.*)"
 repos:
   - repo: https://github.com/psf/black
     rev: 20.8b1
@@ -9,4 +9,4 @@ repos:
     rev: 3.8.4
     hooks:
       - id: flake8
-        args: ["--count", "--ignore=E501,E731,W503" ,"--show-source", "--statistics"]
+        args: ["--count", "--ignore=E731,W503" ,"--show-source", "--statistics"]

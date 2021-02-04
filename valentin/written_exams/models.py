@@ -17,7 +17,9 @@ class Submission(models.Model):
         limit_choices_to={"is_staff": False},
         verbose_name="Utilisateur",
     )
-    session = models.ForeignKey(to="semifinals.Session", on_delete=models.CASCADE)
+    session = models.ForeignKey(
+        to="semifinals.Session", on_delete=models.CASCADE
+    )
     last_updated = models.DateTimeField(null=True, blank=True)
     file = models.FileField(upload_to=get_path)
 

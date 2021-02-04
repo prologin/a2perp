@@ -4,7 +4,9 @@ from . import views
 app_name = "interviews"
 
 urlpatterns = [
-    path("profile/", views.InterviewerProfileEditView.as_view(), name="profile"),
+    path(
+        "profile/", views.InterviewerProfileEditView.as_view(), name="profile"
+    ),
     path("sessions/", views.SessionListView.as_view(), name="list"),
     path(
         "<uuid:session_id>/dispo-select/",

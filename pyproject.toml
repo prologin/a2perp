@@ -1,0 +1,12 @@
+[project]
+name = "prologin-valentin"
+description = "A web application to manage Prologin's semifinals"
+readme = "README.md"
+maintainers = [
+    "Léo Portemont <leo@prologin.org>",
+    "Association Prologin <info@prologin.org>",
+]
+repository = "https://github.com/prologin/valentin"
+
+[tool.black]
+line-length = 79

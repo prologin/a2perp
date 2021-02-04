@@ -15,7 +15,9 @@ class IntervierwerDispoSelection(forms.Form):
         slot_choices = kwargs.pop("slot_choices")
         super().__init__(*args, **kwargs)
         self.fields["slot_choices"] = forms.MultipleChoiceField(
-            choices=slot_choices, required=False, widget=forms.CheckboxSelectMultiple()
+            choices=slot_choices,
+            required=False,
+            widget=forms.CheckboxSelectMultiple(),
         )
 
 

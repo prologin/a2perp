@@ -44,7 +44,9 @@ class InterviewerDispoSelect(
 ):
     template_name = "interviews/interviewer-dispos-select.html"
     form_class = forms.IntervierwerDispoSelection
-    session_passes_test = lambda _, session: session.in_phase_1 or session.in_phase_2
+    session_passes_test = (
+        lambda _, session: session.in_phase_1 or session.in_phase_2
+    )
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy("interviews:dispo-select", args=[self.session.id])
@@ -61,9 +63,9 @@ class InterviewerDispoSelect(
         form_kwargs = super().get_form_kwargs()
         form_kwargs["slot_choices"] = tuple(
             (slot.id, slot.local_display)
-            for slot in models.Slot.objects.filter(session=self.session).order_by(
-                "date_start"
-            )
+            for slot in models.Slot.objects.filter(
+                session=self.session
+            ).order_by("date_start")
         )
         return form_kwargs
 
@@ -76,7 +78,9 @@ class InterviewerDispoSelect(
     def form_valid(self, form=None):
         if form.has_changed():
             initial, old_choices = self.get_initial(), set()
-            new_choices = set(int(c) for c in form.cleaned_data["slot_choices"])
+            new_choices = set(
+                int(c) for c in form.cleaned_data["slot_choices"]
+            )
             if initial and (slot_choices := initial.get("slot_choices")):
                 old_choices = set(int(c) for c in slot_choices)
 
@@ -95,7 +99,9 @@ class InterviewerDispoSelect(
         return super().form_valid(form)
 
 
-class ContestantSlotSelect(mixins.SessionObjectMixin, LoginRequiredMixin, FormView):
+class ContestantSlotSelect(
+    mixins.SessionObjectMixin, LoginRequiredMixin, FormView
+):
     template_name = "interviews/contestant-slot-select.html"
     form_class = forms.ContestantSlotSelection
     success_url = reverse_lazy("interviews:list")
@@ -127,7 +133,7 @@ class ContestantSlotSelect(mixins.SessionObjectMixin, LoginRequiredMixin, FormVi
         form_kwargs["slot_choices"] = tuple(
             (
                 slot.id,
-                f"{slot.local_display} ({slot.instances.filter(contestant__isnull=True).count()} en stock)",
+                f"{slot.local_display} ({slot.instances.filter(contestant__isnull=True).count()} en stock)",  # noqa
             )
             for slot in self.available_slots
         )
@@ -139,7 +145,8 @@ class ContestantSlotSelect(mixins.SessionObjectMixin, LoginRequiredMixin, FormVi
                 sloti = (
                     models.SlotInstance.objects.select_for_update()
                     .filter(
-                        slot=form.cleaned_data["slot_choice"], contestant__isnull=True
+                        slot=form.cleaned_data["slot_choice"],
+                        contestant__isnull=True,
                     )
                     .first()
                 )
@@ -153,7 +160,9 @@ class ContestantSlotSelect(mixins.SessionObjectMixin, LoginRequiredMixin, FormVi
                 )
 
 
-class InterviewRecapView(mixins.SessionObjectMixin, LoginRequiredMixin, DetailView):
+class InterviewRecapView(
+    mixins.SessionObjectMixin, LoginRequiredMixin, DetailView
+):
     template_name = "interviews/my-interview.html"
 
     def session_passes_test(self, session):
@@ -186,7 +195,7 @@ class InterviewRecapView(mixins.SessionObjectMixin, LoginRequiredMixin, DetailVi
             return super().get(request, *args, **kwargs)
         except MultipleObjectsReturned:
             raise Exception(
-                f"{request.user.first_name} {request.user.last_name} has multiple slot instance assignations."
+                f"{request.user.first_name} {request.user.last_name} has multiple slot instance assignations."  # noqa
             )
         except ObjectDoesNotExist:
             if self.session.in_phase_2:
@@ -204,7 +213,9 @@ class ContestantInterviewPortal(
             ).exists()
             or self.session.in_phase_3
         ):
-            return reverse_lazy("interviews:contestant-recap", args=[self.session.id])
+            return reverse_lazy(
+                "interviews:contestant-recap", args=[self.session.id]
+            )
         return reverse_lazy("interviews:slot-select", args=[self.session.id])
 
     def session_passes_test(self, session):
@@ -272,4 +283,6 @@ class ContestantGrading(
         try:
             return qs.get(contestant=contestant)
         except ObjectDoesNotExist:
-            return models.InterviewScore(session=self.session, contestant=contestant)
+            return models.InterviewScore(
+                session=self.session, contestant=contestant
+            )

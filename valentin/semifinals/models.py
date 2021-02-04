@@ -15,7 +15,9 @@ class SessionStatuses(models.IntegerChoices):
 
 
 class Session(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, verbose_name="ID")
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, verbose_name="ID"
+    )
     upstream_id = models.IntegerField(
         help_text="ID de l'ER sur le site Prologin", null=True, blank=True
     )
@@ -24,13 +26,18 @@ class Session(models.Model):
     )
     date_start = models.DateTimeField(verbose_name="Début")
     date_end = models.DateTimeField(verbose_name="Fin")
-    status = models.IntegerField(choices=SessionStatuses.choices, verbose_name="Statut")
+    status = models.IntegerField(
+        choices=SessionStatuses.choices, verbose_name="Statut"
+    )
     subject = models.FileField(
         upload_to=get_session_subject_path, null=True, blank=True
     )
     contestant_instructions = models.TextField(max_length=1000)
     form = models.ForeignKey(
-        to="se_forms.FormInstance", null=True, blank=True, on_delete=models.SET_NULL
+        to="se_forms.FormInstance",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     file_upload = models.BooleanField(
         verbose_name="Les participants doivent rendre un fichier"
@@ -38,7 +45,9 @@ class Session(models.Model):
     subject_download_count = models.IntegerField(
         default=0, verbose_name="Nb. de téléchargements du sujet"
     )
-    form_allow_review = models.BooleanField(verbose_name="Autoriser la relecture")
+    form_allow_review = models.BooleanField(
+        verbose_name="Autoriser la relecture"
+    )
 
     def __str__(self):
         return self.display_name
@@ -56,15 +65,19 @@ class Session(models.Model):
         social = user.social_auth.first()
         if social is None:
             return cls.objects.filter(
-                status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id__isnull=True
+                status__in=CONTESTANT_ALLOWED_STATUSES,
+                upstream_id__isnull=True,
             )
 
         if (
             social.extra_data.get("is_contestant", False)
-            and social.extra_data["contestant"].get("assignation_semifinal") == 2
+            and social.extra_data["contestant"].get("assignation_semifinal")
+            == 2
         ):
             event_id = int(
-                social.extra_data["contestant"]["assignation_semifinal_event"]["id"]
+                social.extra_data["contestant"]["assignation_semifinal_event"][
+                    "id"
+                ]
             )
             return cls.objects.filter(
                 status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id=event_id

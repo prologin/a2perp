@@ -60,7 +60,9 @@ class QuestionFieldBuilder:
             if not isinstance(choice, dict):
                 raise MalformedQuestionChoice("Choice element must be a dict")
             try:
-                cleaned_choices.append((str(choice["id"]), str(choice["text"])))
+                cleaned_choices.append(
+                    (str(choice["id"]), str(choice["text"]))
+                )
             except KeyError:
                 raise MalformedQuestionChoice(
                     "Choice element must contain at least id and text"
@@ -142,11 +144,11 @@ class QuestionFieldBuilder:
 
     def build(self):
         """
-        Takes question dict and return (question_id, django_formfield) in (str, django.Forms.Field)
-        may raise se_forms.MalformedQuestion when the code is OK.
+        Takes question dict and return (question_id, django_formfield)
+        in (str, django.Forms.Field) may raise se_forms.MalformedQuestion
 
-        However if the code happens to not be ok it may raise TypeError and/or NotImplementedError
-        (see get_field_converter_from_string for more insight on this)
+        However if the code happens to not be ok it may raise TypeError
+        and/or NotImplementedError (see get_field_converter_from_string)
         """
 
         question = self.data
@@ -160,10 +162,14 @@ class QuestionFieldBuilder:
         except KeyError:
             raise MalformedQuestion("Question fields id and type are required")
         except:  # NOQA
-            raise MalformedQuestion("Question fields id and type must be stringable")
+            raise MalformedQuestion(
+                "Question fields id and type must be stringable"
+            )
 
         try:
-            self.form_field = self.get_field_converter_from_string(self.type)(question)
+            self.form_field = self.get_field_converter_from_string(self.type)(
+                question
+            )
         except KeyError as ke:
             raise MalformedQuestion(
                 f"Question {self.id} is missing mandatory key {str(ke)}"
@@ -214,7 +220,9 @@ class FormBuilder:
         if not isinstance(questions, list):
             raise MalformedForm("Form questions must be a list")
 
-        self.questions = tuple(QuestionFieldBuilder(q).build() for q in questions)
+        self.questions = tuple(
+            QuestionFieldBuilder(q).build() for q in questions
+        )
         self.form = DynamicForm(extracted_fields=self.questions)
 
         # for cascade queryset-ish / django-ish calls

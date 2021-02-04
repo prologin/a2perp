@@ -22,7 +22,11 @@ contestant_urls = [
 ]
 
 staff_urls = [
-    path("staff/form/", views.staff.FormInstanceListView.as_view(), name="form-list"),
+    path(
+        "staff/form/",
+        views.staff.FormInstanceListView.as_view(),
+        name="form-list",
+    ),
     path(
         "staff/form/<uuid:id>/test",
         views.staff.FormTestingView.as_view(),

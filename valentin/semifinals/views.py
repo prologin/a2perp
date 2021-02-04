@@ -1,4 +1,10 @@
-from django.views.generic import ListView, DetailView, View, TemplateView, RedirectView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    View,
+    TemplateView,
+    RedirectView,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -57,7 +63,9 @@ class SessionDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         submission = None
         try:
-            submission = Submission.objects.get(session=object, user=self.request.user)
+            submission = Submission.objects.get(
+                session=object, user=self.request.user
+            )
         except ObjectDoesNotExist:
             pass
 
@@ -100,7 +108,9 @@ class DownloadSessionSubjectView(LoginRequiredMixin, View):
         if settings.APP_USE_X_ACCEL_REDIRECT:
             return self.get_x_accel(session)
 
-        return FileResponse(open(session.subject.path, "rb"), as_attachment=True)
+        return FileResponse(
+            open(session.subject.path, "rb"), as_attachment=True
+        )
 
 
 class SessionOverseerList(EnsureStaffMixin, ListView):
@@ -115,15 +125,21 @@ class SessionOverseer(EnsureStaffMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         session = get_object_or_404(models.Session, id=session_id)
         if session.file_upload:
-            file_handouts = we_models.Submission.objects.filter(session=session)
+            file_handouts = we_models.Submission.objects.filter(
+                session=session
+            )
             context["nb_file_handouts"] = file_handouts.count()
-            context["last_file_handouts"] = file_handouts.order_by("-last_updated")[:15]
+            context["last_file_handouts"] = file_handouts.order_by(
+                "-last_updated"
+            )[:15]
 
         if session.form is not None:
             form_instance = session.form
             answers = se_models.UserAnswers.objects.filter(form=form_instance)
             context["nb_form_handouts"] = answers.count()
-            context["last_form_handouts"] = answers.order_by("-last_updated")[:15]
+            context["last_form_handouts"] = answers.order_by("-last_updated")[
+                :15
+            ]
             context["form"] = form_instance
 
         context["session"] = session

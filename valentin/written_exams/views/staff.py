@@ -13,7 +13,9 @@ class FormTestingView(EnsureStaffMixin, se_views.BaseSEFormView):
     template_name = "written_exams/form-testing.html"
 
     def form_valid(self, form):
-        return JsonResponse({"is_valid": True, "cleaned_data": form.cleaned_data})
+        return JsonResponse(
+            {"is_valid": True, "cleaned_data": form.cleaned_data}
+        )
 
     def form_invalid(self, form):
         dic = {
@@ -24,7 +26,9 @@ class FormTestingView(EnsureStaffMixin, se_views.BaseSEFormView):
         return JsonResponse(dic)
 
     def get_success_url(self):
-        return reverse("written_exams:form-testing", args=[self.form_instance.id])
+        return reverse(
+            "written_exams:form-testing", args=[self.form_instance.id]
+        )
 
 
 class FormInstanceListView(EnsureStaffMixin, ListView):
@@ -85,13 +89,20 @@ class FormGlobalExportView(EnsureStaffMixin, View):
             dic["display_name"] = form_instance.display_name
             dic["answers"] = []
 
-            for user_answer in form_instance.user_answers.filter(user__is_staff=False):
-                res = {"user": {"has_social_auth": False, "prologin_uid": None}}
+            for user_answer in form_instance.user_answers.filter(
+                user__is_staff=False
+            ):
+                res = {
+                    "user": {"has_social_auth": False, "prologin_uid": None}
+                }
                 res["user"]["first_name"] = user_answer.user.first_name
                 res["user"]["last_name"] = user_answer.user.last_name
                 res["user"]["email"] = user_answer.user.email
 
-                if not (social := user_answer.user.social_auth.first()) is None:
+                if (
+                    not (social := user_answer.user.social_auth.first())
+                    is None
+                ):
                     res["user"]["has_social_auth"] = True
                     res["user"]["prologin_uid"] = social.uid
 
@@ -106,5 +117,5 @@ class FormGlobalExportView(EnsureStaffMixin, View):
             response = JsonResponse(dic)
             response[
                 "Content-Disposition"
-            ] = f"attachment; filename={form_instance.id}_{date_filename}.json;"
+            ] = f"attachment; filename={form_instance.id}_{date_filename}.json;"  # noqa
             return response

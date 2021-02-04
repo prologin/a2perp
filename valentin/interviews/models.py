@@ -49,7 +49,10 @@ class Session(models.Model):
                 )
             )
         return cls.objects.filter(
-            status__in=(SessionStatuses.CONTESTANT_CHOICE, SessionStatuses.LOCKED)
+            status__in=(
+                SessionStatuses.CONTESTANT_CHOICE,
+                SessionStatuses.LOCKED,
+            )
         )
 
     def __str__(self):
@@ -57,7 +60,9 @@ class Session(models.Model):
 
 
 class Slot(models.Model):
-    session = models.ForeignKey(to="interviews.Session", on_delete=models.CASCADE)
+    session = models.ForeignKey(
+        to="interviews.Session", on_delete=models.CASCADE
+    )
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()
 
@@ -82,10 +87,14 @@ class Interviewer(models.Model):
         limit_choices_to={"is_staff": True},
         on_delete=models.CASCADE,
     )
-    meet_link = models.URLField(verbose_name="Google Meet link", null=True, blank=True)
+    meet_link = models.URLField(
+        verbose_name="Google Meet link", null=True, blank=True
+    )
 
     def grading_targets_queryset(self, session):
-        return SlotInstance.objects.filter(slot__session=session, interviewer=self)
+        return SlotInstance.objects.filter(
+            slot__session=session, interviewer=self
+        )
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
@@ -93,7 +102,9 @@ class Interviewer(models.Model):
 
 class SlotInstance(models.Model):
     slot = models.ForeignKey(
-        to="interviews.Slot", related_name="instances", on_delete=models.CASCADE
+        to="interviews.Slot",
+        related_name="instances",
+        on_delete=models.CASCADE,
     )
     interviewer = models.ForeignKey(
         to="interviews.Interviewer", on_delete=models.CASCADE
@@ -137,7 +148,9 @@ class SlotInstance(models.Model):
 
 
 class InterviewScore(models.Model):
-    session = models.ForeignKey(to="interviews.Session", on_delete=models.CASCADE)
+    session = models.ForeignKey(
+        to="interviews.Session", on_delete=models.CASCADE
+    )
     contestant = models.ForeignKey(
         to=get_user_model(),
         limit_choices_to={"is_staff": False},
@@ -146,7 +159,10 @@ class InterviewScore(models.Model):
     grade = models.IntegerField(
         verbose_name="Note",
         help_text="Entier compris entre 0 et 5",
-        validators=[validators.MinValueValidator(0), validators.MaxValueValidator(5)],
+        validators=[
+            validators.MinValueValidator(0),
+            validators.MaxValueValidator(5),
+        ],
     )
     comments = models.TextField(
         verbose_name="Commentaires sur l'entretien", max_length=400
