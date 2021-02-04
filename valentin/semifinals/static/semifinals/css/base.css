@@ -193,15 +193,16 @@ form ul {
     margin-left: 0;
 }
 
+/* IF UI IS BROKEN UNCOMMENT THIS (LOL)
 form ul li:first-child {
     padding-top: 0.5em;
-}
+}*/
 
 form ul li {
     padding-bottom: 0.5em;
 }
 
-input[type="text"], input[type="number"], input[type="password"], textarea {
+input[type="text"], input[type="number"], input[type="password"], input[type="url"], textarea {
     display: block;
     border: 0.1em solid black;
     padding: 10px 10px;

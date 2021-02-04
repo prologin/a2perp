@@ -41,7 +41,6 @@ class Session(models.Model):
 
         if social.extra_data.get('is_contestant', False) and social.extra_data['contestant'].get('assignation_semifinal') == 2:
             event_id = int(social.extra_data['contestant']['assignation_semifinal_event']['id'])
-            print(event_id)
             return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id=event_id)
 
         return cls.objects.filter(status__in=CONTESTANT_ALLOWED_STATUSES, upstream_id__isnull=True)

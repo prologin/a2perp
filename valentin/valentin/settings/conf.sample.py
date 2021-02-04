@@ -17,6 +17,7 @@ APP_MAX_UPLOAD_SIZE = '4 Mo'
 # file download views to nginx directly
 APP_USE_X_ACCEL_REDIRECT = False
 APP_X_ACCEL_PATH = '/media'
+APP_ITW_MEET_UNLOCK_BEFORE = 3 # unlock meet links 3 minutes before the itw
 
 '''
 Social Auth Settings

@@ -23,9 +23,8 @@
     <h2>Entretiens oraux</h2>
 
     <ul class="home-links">
-        <li><a href="#"><i class="las la-calendar"></i><br><br>Saisie Disponibilités</a></li>
-        <li><a href="#"><i class="las la-calendar-check"></i><br><br>Mes entretiens</a></li>
-        <li><a href="#"><i class="las la-video"></i><br><br>Liens Google Meet</a></li>
+        <li><a href="{% url 'interviews:list' %}"><i class="las la-users"></i><br><br>Sessions d'entretiens</a></li>
+        <li><a href="{% url 'interviews:profile' %}"><i class="las la-snowman"></i><br><br>Profil Organisateur</a></li>
     </ul>
 
     <h2>Mon Compte</h2>
