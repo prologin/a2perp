@@ -2,13 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=0.7">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg==" crossorigin="anonymous" />
         <link rel="stylesheet" href="{% static 'semifinals/css/base.css' %}">
         {% block base_extra_head %}{% endblock %}
     </head>
 
     <body>
+        <main>
         <div class="banner">
             <div class="banner-content">
                 <img src="https://prologin.org/static/img/logo_cube.png" alt="Logo Prologin Cube" width="50" height="53">
@@ -18,5 +19,12 @@
         {% block content %}{% endblock %}
         <br><br>
         {% block extra_body %}{% endblock %}
+        </main>
+        <footer class="sf-footer">
+            <div class="container">
+                <p class="footer-title">Made with 🌶 at Prologin</p>
+                <small class="footer-app-name">VALENTIN : Véritable Application pour Épreuves Notées et Interviews Nominatives</small>
+            </div>
+        </footer>
     </body>
 </html>

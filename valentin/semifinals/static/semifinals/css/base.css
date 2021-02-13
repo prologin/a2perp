@@ -9,12 +9,23 @@
     --color-secondary: #6d6d6d;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
     background-color: rgb(253, 253, 253);
     font-family: 'IBM Plex Sans', sans-serif;
     vertical-align: middle;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 h1 {
@@ -329,4 +340,22 @@ span.help-text {
 
 .window-body p {
     margin: 0.2em 0 0.2em;
+}
+
+.sf-footer {
+    flex-shrink: 0;
+    text-align: center;
+    background-color: #272727;
+    color: rgb(224, 224, 224);
+    font-weight: bold;
+    padding: 2em 0;
+}
+
+.footer-title {
+    margin: 0.2em 0;
+    font-size: 1.5em;
+}
+
+.footer-app-name {
+    font-family: monospace;
 }
