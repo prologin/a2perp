@@ -5,6 +5,7 @@ from django.views.generic import (
     DetailView,
     RedirectView,
 )
+from itertools import groupby
 from valentin.utils import EnsureStaffMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -61,16 +62,26 @@ class InterviewerDispoSelect(
 
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()
-        form_kwargs["slot_choices"] = tuple(
-            (slot.id, slot.local_display)
+        self.slot_choices = tuple(
+            slot
             for slot in models.Slot.objects.filter(
                 session=self.session
             ).order_by("date_start")
+        )
+        form_kwargs["slot_choices"] = tuple(
+            (slot.id, slot.local_display) for slot in self.slot_choices
         )
         return form_kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        # Because of a weird django thing we are obliged to evaluate :(
+        context["grouped_slot_choices"] = tuple(
+            (i, list(j))
+            for i, j in groupby(
+                self.slot_choices, lambda d: d.date_start.date()
+            )
+        )
         context["session"] = self.session
         context["interviewer"] = self.interviewer
         return context

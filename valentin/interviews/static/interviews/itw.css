@@ -58,3 +58,30 @@
 .slot-list-spd li {
     padding: 0.2em 1em;
 }
+
+
+/* slot list flex */
+h4.slot-day {
+    font-size: 1.5em;
+}
+
+.slot-list-flex {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 3em;
+}
+
+.slot-list-flex-li {
+    padding: 1em;
+    margin: 0.3em 0;
+    background-color: var(--cool-bg-gray);
+}
+
+.slot-list-flex-li-checked {
+    color: whitesmoke;
+    background-color: var(--color-success);
+}
