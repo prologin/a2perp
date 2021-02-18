@@ -29,16 +29,15 @@
     <form action="" method="POST">
         {% csrf_token %}
         {% for day_date, slots in grouped_slot_choices %}
-        <h4 class="slot-day">{{ day_date|date:'D d N Y' }}</h4>
-            <ul class="slot-list-flex">
+        <fieldset class="interview_select">
+          <legend>{{ day_date|date:'D d N Y' }}</legend>
             {% for slot in slots %}
             {% with val=slot.id selected=form.slot_choices.value %}
-                <li class="slot-list-flex-li{% if val in selected %} slot-list-flex-li-checked{% endif %}">
-                    <label for="id_slot_choice_{{ val }}">{{ slot.date_start |date:'H:i' }} à {{ slot.date_end |date:'H:i' }}</label>
-                    &nbsp;<input type="checkbox" name="slot_choices" value="{{ val }}" id="id_slot_choice_{{ val }}" {% if val in selected %}checked {% if session.in_phase_2 %}disabled{% endif %}{% endif %}></li>
+            <input type="checkbox" name="slot_choices" value="{{ val }}" id="id_slot_choice_{{ val }}" {% if val in selected %}checked {% if session.in_phase_2 %}disabled{% endif %}{% endif %}>
+            <label for="id_slot_choice_{{ val }}">{{ slot.date_start |date:'H:i' }} à {{ slot.date_end |date:'H:i' }}</label>
             {% endwith %}
             {% endfor %}
-            </ul>
+        </fieldset>
         {% endfor %}
         <button class="btn btn-block btn-success">Enregistrer mes choix</button>
     </form>

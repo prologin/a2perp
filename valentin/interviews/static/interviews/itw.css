@@ -85,3 +85,17 @@ h4.slot-day {
     color: whitesmoke;
     background-color: var(--color-success);
 }
+
+/* Interview selection */
+
+.interview_select input[type="checkbox"] {
+    display: none;
+}
+
+.interview_select label {
+    background: red;
+}
+
+.interview_select input[type="checkbox"]:checked + label {
+    background: green;
+}
