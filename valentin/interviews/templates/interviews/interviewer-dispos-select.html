@@ -33,8 +33,10 @@
           <legend>{{ day_date|date:'D d N Y' }}</legend>
             {% for slot in slots %}
             {% with val=slot.id selected=form.slot_choices.value %}
-            <input type="checkbox" name="slot_choices" value="{{ val }}" id="id_slot_choice_{{ val }}" {% if val in selected %}checked {% if session.in_phase_2 %}disabled{% endif %}{% endif %}>
-            <label for="id_slot_choice_{{ val }}">{{ slot.date_start |date:'H:i' }} à {{ slot.date_end |date:'H:i' }}</label>
+            <input type="checkbox" name="slot_choices" value="{{ val }}" id="id_slot_choice_{{ val }}" {% if val in selected %}checked class="pre_checked" {% if session.in_phase_2 %}disabled{% endif %}{% endif %}>
+            <label for="id_slot_choice_{{ val }}">
+                {{ slot.date_start |date:'H:i' }} à {{ slot.date_end |date:'H:i' }}
+            </label>
             {% endwith %}
             {% endfor %}
         </fieldset>

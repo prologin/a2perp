@@ -60,42 +60,40 @@
 }
 
 
-/* slot list flex */
-h4.slot-day {
-    font-size: 1.5em;
-}
+/* Interview selection */
 
-.slot-list-flex {
+.interview_select {
+    border: 0;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
-    list-style-type: none;
+    margin: 2em 0;
     padding: 0;
-    margin-bottom: 3em;
 }
 
-.slot-list-flex-li {
-    padding: 1em;
-    margin: 0.3em 0;
-    background-color: var(--cool-bg-gray);
+.interview_select legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
 }
-
-.slot-list-flex-li-checked {
-    color: whitesmoke;
-    background-color: var(--color-success);
-}
-
-/* Interview selection */
 
 .interview_select input[type="checkbox"] {
     display: none;
 }
 
 .interview_select label {
-    background: red;
+    background: var(--cool-bg-gray);
+    padding: 1em;
+    margin: 0.3em 0;
 }
 
 .interview_select input[type="checkbox"]:checked + label {
-    background: green;
+    background: var(--color-warning);
+    color: whitesmoke;
+}
+
+.interview_select input.pre_checked[type="checkbox"]:checked + label {
+    color: whitesmoke;
+    background: var(--color-success);
 }
