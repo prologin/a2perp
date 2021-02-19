@@ -18,8 +18,8 @@
     <ul class="home-links">
         <li><a href="{% url 'semifinals:session-list' %}"><i class="las la-edit"></i><br><br>Épreuves écrites</a></li>
         <li><a href="{% url 'interviews:list' %}"><i class="las la-phone-volume"></i><br><br>Entretiens oraux</a></li>
+        <li><a href="https://epreuve-machine.prologin.dev"><i class="las la-cube"></i><br><br>Site Épreuve Machine</a></li>
         <li><a href="{% url 'semifinals:logout' %}"><i class="las la-door-open"></i><br><br>Déconnexion</a></li>
-        <li><a href="https://prologin.org"><i class="las la-cube"></i><br><br>Site Prologin</a></li>
         {% if settings.APP_SHOW_PIZZA_ICON %}
         <li><a href="https://youtu.be/dQw4w9WgXcQ?t=43"><i class="las la-pizza-slice"></i><br><br>Retrait des pizzas</a></li>
         {% endif %}
