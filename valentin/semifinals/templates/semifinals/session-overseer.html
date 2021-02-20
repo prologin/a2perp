@@ -105,6 +105,11 @@
 
     {% if session.file_upload %}
     <h2>15 derniers rendus copies</h2>
+    {% if perms.written_exams.can_export_submissions %}
+    <a href="{% url 'written_exams:submissions-list' session.id %}" class="btn btn-block btn-secondary">
+        Lister tous les rendus
+    </a>
+    {% endif %}
     <table class="last-handouts">
         <tr>
             <th>Utilisateur</th>
