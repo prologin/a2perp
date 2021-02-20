@@ -37,3 +37,6 @@ class Submission(models.Model):
 
     class Meta:
         unique_together = [("user", "session")]
+        permissions = [
+            ("can_export_submissions", "User can export submissions")
+        ]

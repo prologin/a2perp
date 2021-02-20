@@ -1,0 +1,25 @@
+{% extends 'semifinals/base.html' %}
+{% load static %}
+
+{% block base_extra_head %}
+<title>Fichiers {{ session }}</title>
+<link rel="stylesheet" href="{% static 'semifinals/css/form-list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <small class="return-button"><a href="{% url 'semifinals:session-overseer' session.id %}">&lt;&nbsp; Retour à la liste des instances</a></small>
+    <h1 class="trb">Réponses à {{ session }}</h1>
+
+    {% if object_list %}
+        <ul class="answers-list">
+            {% for o in object_list %}
+            {{ p }}
+            <li><a href="{% url 'written_exams:submission-download' o.id %}" target="_blank"><span>{{ o.user.first_name }} {{ o.user.last_name }}</span> <span>{{ o.last_updated | date:'d F Y à H:i:s' }}</span></a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a pas encore de réponses à cette instance de formulaire.</p>
+    {% endif %}
+</div>
+{% endblock %}

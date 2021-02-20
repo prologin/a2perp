@@ -47,6 +47,16 @@ staff_urls = [
         views.staff.FormAnswersDetailView.as_view(),
         name="form-answers",
     ),
+    path(
+        "staff/submissions/<uuid:session_id>",
+        views.staff.FileSubmissionsListView.as_view(),
+        name="submissions-list",
+    ),
+    path(
+        "staff/submission/dl/<int:submission_id>",
+        views.staff.FileSubmissionDownloadView.as_view(),
+        name="submission-download",
+    ),
 ]
 
 urlpatterns = contestant_urls + staff_urls

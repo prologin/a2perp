@@ -1,5 +1,6 @@
 from se_forms import views as se_views
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from se_forms import models as se_models
 from valentin.utils import EnsureStaffMixin
 from django.http import JsonResponse, Http404
@@ -7,6 +8,11 @@ from django.urls import reverse
 from django.views.generic import ListView, View
 from django.db import transaction
 from django.utils import timezone
+from .. import models
+from semifinals.models import Session
+from django.conf import settings
+from django.http import FileResponse, HttpResponse
+from pathlib import Path
 
 
 class FormTestingView(EnsureStaffMixin, se_views.BaseSEFormView):
@@ -72,6 +78,54 @@ class FormAnswersDetailView(EnsureStaffMixin, se_views.SEFormView):
         context = super().get_context_data(*args, **kwargs)
         context["staff"] = True
         return context
+
+
+class FileSubmissionsListView(
+    PermissionRequiredMixin, EnsureStaffMixin, ListView
+):
+    permission_required = ("written_exams.can_export_submissions",)
+    template_name = "written_exams/submissions-list.html"
+
+    def get_queryset(self):
+        try:
+            self.session = Session.objects.get(id=self.kwargs["session_id"])
+            return models.Submission.objects.filter(
+                session_id=self.session.id
+            ).order_by("-last_updated")
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["session"] = self.session
+        return context
+
+
+class FileSubmissionDownloadView(
+    PermissionRequiredMixin, EnsureStaffMixin, View
+):
+    permission_required = ("written_exams.can_export_submissions",)
+    http_method_names = ("get",)
+
+    def get_x_accel(self, submission):
+        res = HttpResponse(status=200)
+        res["X-Accel-Redirect"] = Path(settings.APP_X_ACCEL_PATH) / Path(
+            submission.path
+        ).relative_to(settings.MEDIA_ROOT)
+        res["Content-Type"] = ""
+        return res
+
+    def get(self, request, submission_id, **kwargs):
+        submission = None
+        try:
+            submission = models.Submission.objects.get(id=submission_id)
+        except ObjectDoesNotExist:
+            raise Http404
+
+        if settings.APP_USE_X_ACCEL_REDIRECT:
+            return self.get_x_accel(submission)
+
+        return FileResponse(open(submission.file.path, "rb"))
 
 
 class FormGlobalExportView(EnsureStaffMixin, View):
