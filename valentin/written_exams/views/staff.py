@@ -110,7 +110,7 @@ class FileSubmissionDownloadView(
     def get_x_accel(self, submission):
         res = HttpResponse(status=200)
         res["X-Accel-Redirect"] = Path(settings.APP_X_ACCEL_PATH) / Path(
-            submission.path
+            submission.file.path
         ).relative_to(settings.MEDIA_ROOT)
         res["Content-Type"] = ""
         return res
