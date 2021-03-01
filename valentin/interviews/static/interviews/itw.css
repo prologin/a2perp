@@ -65,7 +65,7 @@
 .interview_select {
     border: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
     margin: 2em 0;
@@ -85,7 +85,7 @@
 .interview_select label {
     background: var(--cool-bg-gray);
     padding: 1em;
-    margin: 0.3em 0;
+    margin: 0.3em;
     cursor: pointer;
     user-select: none;
 }
