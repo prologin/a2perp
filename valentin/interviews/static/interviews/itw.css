@@ -78,7 +78,7 @@
     margin-bottom: 0.5em;
 }
 
-.interview_select input[type="checkbox"] {
+.interview_select input[type="checkbox"], .interview_select input[type="radio"] {
     display: none;
 }
 
@@ -92,6 +92,11 @@
 
 .interview_select input[type="checkbox"]:checked + label {
     background: var(--color-warning);
+    color: whitesmoke;
+}
+
+.interview_select input[type="radio"]:checked + label {
+    background-color: var(--color-success);
     color: whitesmoke;
 }
 

@@ -128,15 +128,24 @@ class ContestantSlotSelect(
             contestant=self.request.user, slot__session=session
         ).exists():
             return False
-        self.available_slots = filter(
-            lambda x: x.instances.filter(contestant__isnull=True).exists(),
-            models.Slot.objects.filter(session=self.session),
+        self.available_slots = tuple(
+            filter(
+                lambda x: x.instances.filter(contestant__isnull=True).exists(),
+                models.Slot.objects.filter(session=self.session),
+            )
         )
         return True
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["session"] = self.session
+        context["grouped_slot_choices"] = tuple(
+            (i, list(j))
+            for i, j in groupby(
+                self.available_slots, lambda d: d.date_start.date()
+            )
+        )
+
         return context
 
     def get_form_kwargs(self, *args, **kwargs):

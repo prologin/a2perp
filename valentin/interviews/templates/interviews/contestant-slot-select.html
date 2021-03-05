@@ -26,16 +26,19 @@
 
     <form action="" method="POST">
         {% csrf_token %}
-        <ul class="slot-list">
-            {% for val, text in form.fields.slot_choice.choices %}
-            <li>
-                <label for="id_slot_choice_{{ val }}">
-                    {{ text }}
-                </label>
-                <input type="radio" id="id_slot_choice_{{ val }}" name="slot_choice" value="{{ val }}">
-            </li>
+        {% for day_date, slots in grouped_slot_choices %}
+        <fieldset class="interview_select">
+          <legend>{{ day_date|date:'D d N Y' }}</legend>
+            {% for slot in slots %}
+            {% with val=slot.id %}
+            <input type="radio" name="slot_choice" value="{{ val }}" id="id_slot_choice_{{ val }}">
+            <label for="id_slot_choice_{{ val }}">
+                {{ slot.date_start |date:'H:i' }} à {{ slot.date_end |date:'H:i' }}
+            </label>
+            {% endwith %}
             {% endfor %}
-        </ul>
+        </fieldset>
+        {% endfor %}
         <button class="btn btn-block btn-success">Valider définitivement mon choix</button>
     </form>
 </div>
