@@ -111,7 +111,7 @@ class InterviewerDispoSelect(
 
 
 class ContestantSlotSelect(
-    mixins.SessionObjectMixin, LoginRequiredMixin, FormView
+    LoginRequiredMixin, mixins.SessionObjectMixin, FormView
 ):
     template_name = "interviews/contestant-slot-select.html"
     form_class = forms.ContestantSlotSelection
