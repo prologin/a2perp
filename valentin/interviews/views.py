@@ -131,7 +131,9 @@ class ContestantSlotSelect(
         self.available_slots = tuple(
             filter(
                 lambda x: x.instances.filter(contestant__isnull=True).exists(),
-                models.Slot.objects.filter(session=self.session),
+                models.Slot.objects.filter(session=self.session).order_by(
+                    "date_start"
+                ),
             )
         )
         return True
