@@ -7,6 +7,7 @@ class InterviewerProfile(forms.ModelForm):
         model = models.Interviewer
         fields = [
             "meet_link",
+            "email_notifications",
         ]
 
 

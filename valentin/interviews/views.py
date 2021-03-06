@@ -5,6 +5,7 @@ from django.views.generic import (
     DetailView,
     RedirectView,
 )
+from django.core.mail import send_mail
 from itertools import groupby
 from valentin.utils import EnsureStaffMixin
 from django.contrib.auth import get_user_model
@@ -174,6 +175,32 @@ class ContestantSlotSelect(
                 )
                 sloti.contestant = self.request.user
                 sloti.save()
+                if sloti.interviewer.email_notifications:
+                    send_mail(
+                        "[ER][ITW] Nouvel entretien avec %s"
+                        % (sloti.contestant_full_name,),
+                        (
+                            f"""
+Bonjour {sloti.interviewer},
+
+Votre créneau du {sloti.slot.local_display} a été assigné au
+candidat {sloti.contestant_full_name}.
+
+Cordialement,
+
+Pensez à l'environnement, imprimez cet email sur du papier recyclé
+uniquement.
+
+--
+Département Entretiens
+Service des Épreuves Régionales
+Association Prologin
+"""
+                        ),
+                        None,
+                        [sloti.interviewer.user.email],
+                        fail_silently=True,
+                    )
                 return super().form_valid(form)
             except ObjectDoesNotExist:
                 return HttpResponseGone(

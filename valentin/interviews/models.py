@@ -90,6 +90,11 @@ class Interviewer(models.Model):
     meet_link = models.URLField(
         verbose_name="Google Meet link", null=True, blank=True
     )
+    email_notifications = models.BooleanField(
+        verbose_name="Recevoir des notifications email pour mes créneaux",
+        default=False,
+        editable=True,
+    )
 
     def grading_targets_queryset(self, session):
         return SlotInstance.objects.filter(
