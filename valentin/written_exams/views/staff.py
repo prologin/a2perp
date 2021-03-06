@@ -77,6 +77,8 @@ class FormAnswersDetailView(EnsureStaffMixin, se_views.SEFormView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["staff"] = True
+        if not (social := self.user_answer.user.social_auth.first()) is None:
+            context["target_uid"] = social.uid
         return context
 
 

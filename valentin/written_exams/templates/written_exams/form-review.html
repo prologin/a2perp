@@ -29,6 +29,9 @@
 
     {% if staff %}
     <h2>Réponses de {{ user_answer.user.first_name }} {{ user_answer.user.last_name }}</h2>
+    {% if target_uid %}
+        <small>UID Site Prologin : {{ target_uid }}</small>
+    {% endif %}
     {% else %}
     <h2>Vos réponses</h2>
     {% endif %}
