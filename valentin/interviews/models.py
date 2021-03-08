@@ -79,6 +79,9 @@ class Slot(models.Model):
     def __str__(self):
         return f"{self.session} : {self.local_display}"
 
+    class Meta:
+        ordering = ("date_start",)
+
 
 class Interviewer(models.Model):
     user = models.OneToOneField(
@@ -141,6 +144,7 @@ class SlotInstance(models.Model):
 
     class Meta:
         unique_together = (("slot", "contestant"), ("interviewer", "slot"))
+        ordering = ("slot",)
 
     def __str__(self):
         if self.contestant:

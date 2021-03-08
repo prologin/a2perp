@@ -27,7 +27,11 @@ class InterviewerAdmin(admin.ModelAdmin):
 class SlotInstanceAdmin(admin.ModelAdmin):
     list_display = ("interviewer", "slot", "contestant_full_name")
     search_fields = ("contestant__first_name", "contestant__last_name")
-    list_filter = ("slot__session", "interviewer")
+    list_filter = (
+        "slot__session",
+        "interviewer",
+        ("contestant", admin.EmptyFieldListFilter),
+    )
     raw_id_fields = ("interviewer", "slot", "contestant")
 
 
