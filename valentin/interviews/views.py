@@ -313,7 +313,7 @@ class ContestantGrading(
         return self.render_to_response(self.get_context_data(form=form))
 
     def session_passes_test(self, session):
-        return session.in_phase_3
+        return session.in_phase_3 or session.in_phase_2
 
     def get_object(self, *args, **kwargs):
         target_uid = self.kwargs.pop("contestant_id")
