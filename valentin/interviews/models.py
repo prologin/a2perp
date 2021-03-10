@@ -165,9 +165,11 @@ class InterviewScore(models.Model):
         limit_choices_to={"is_staff": False},
         on_delete=models.CASCADE,
     )
-    grade = models.IntegerField(
+    grade = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
         verbose_name="Note",
-        help_text="Entier compris entre 0 et 5",
+        help_text="Nombre décimal compris entre 0 et 5 (Format xx,x)",
         validators=[
             validators.MinValueValidator(0),
             validators.MaxValueValidator(5),
