@@ -174,7 +174,7 @@ class InterviewScore(models.Model):
         ],
     )
     comments = models.TextField(
-        verbose_name="Commentaires sur l'entretien", max_length=400
+        verbose_name="Commentaires sur l'entretien", max_length=4000
     )
 
     class Meta:
