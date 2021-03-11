@@ -31,6 +31,7 @@ class SlotInstanceAdmin(admin.ModelAdmin):
         "slot__session",
         "interviewer",
         ("contestant", admin.EmptyFieldListFilter),
+        ("slot__date_start", admin.DateFieldListFilter),
     )
     raw_id_fields = ("interviewer", "slot", "contestant")
 
