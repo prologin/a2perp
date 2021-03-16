@@ -8,6 +8,7 @@ from django.views.generic import (
 from django.core.mail import send_mail
 from itertools import groupby
 from valentin.utils import EnsureStaffMixin
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
@@ -131,7 +132,10 @@ class ContestantSlotSelect(
             return False
         self.available_slots = tuple(
             filter(
-                lambda x: x.instances.filter(contestant__isnull=True).exists(),
+                lambda x: x.instances.filter(
+                    contestant__isnull=True,
+                    slot__date_start__gt=timezone.now(),
+                ).exists(),
                 models.Slot.objects.filter(session=self.session).order_by(
                     "date_start"
                 ),
