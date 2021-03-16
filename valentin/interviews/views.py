@@ -158,11 +158,7 @@ class ContestantSlotSelect(
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
         form_kwargs["slot_choices"] = tuple(
-            (
-                slot.id,
-                f"{slot.local_display} ({slot.instances.filter(contestant__isnull=True).count()} en stock)",  # noqa
-            )
-            for slot in self.available_slots
+            (slot.id, "") for slot in self.available_slots
         )
         return form_kwargs
 
