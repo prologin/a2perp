@@ -17,7 +17,14 @@
     <ul class="slot-list slot-list-spd">
         {% for object in object_list %}
         <li>
-            <span class="va-middle"><b>{{ object.slot.local_display }}</b>&nbsp;&nbsp; {{ object.contestant_full_name }}</span>
+            <span class="va-middle">
+                <b>{{ object.slot.local_display }}</b>&nbsp;&nbsp; {{ object.contestant_full_name }}&nbsp;&nbsp;
+                {% if object.contestant_id in notations %}
+                    <i style="font-weight: bolder; color: var(--color-success);" class="las la-check"></i>
+                {% else %}
+                    <i style="font-weight: bolder; color: var(--color-danger);" class="las la-times"></i>
+                {% endif %}
+            </span>
             <span><a href="{% url 'interviews:contestant-grading' session.id object.contestant_id %}" class="btn">Notation</a></span>
         </li>
         {% endfor %}

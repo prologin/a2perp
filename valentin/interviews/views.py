@@ -278,9 +278,15 @@ class InterviewerSlotsList(
 ):
     template_name = "interviews/interviews-list.html"
 
+    def get_notations(self, session):
+        return models.InterviewScore.objects.filter(
+            session=session
+        ).values_list("contestant", flat=True)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["session"] = self.session
+        context["notations"] = self.get_notations(self.session)
         return context
 
     def session_passes_test(self, session):
