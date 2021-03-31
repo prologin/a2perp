@@ -67,7 +67,7 @@ class InterviewerDispoSelect(
         self.slot_choices = tuple(
             slot
             for slot in models.Slot.objects.filter(
-                session=self.session
+                session=self.session, date_start__gt=timezone.now()
             ).order_by("date_start")
         )
         form_kwargs["slot_choices"] = tuple(
